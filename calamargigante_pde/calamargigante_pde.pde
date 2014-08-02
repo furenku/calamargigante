@@ -4,10 +4,10 @@ int NUMLEDS = 400;
 int NUMSTRIPS = 13;
 int ELLIPSESIZE  = 10;
 
-float[] rangoPos = new float[NUMSTRIPS];
-//float rangoPos[NUMSTRIPS];
-float[] rangoPct = new float[NUMSTRIPS];
-//float rangoPct[NUMSTRIPS];
+int[] b_rangoPos = new int[NUMSTRIPS];
+//int b_rangoPos[NUMSTRIPS];
+int[] b_rangoPct = new int[NUMSTRIPS];
+//int b_rangoPct[NUMSTRIPS];
 
 
 
@@ -16,14 +16,17 @@ float[] rangoPct = new float[NUMSTRIPS];
 int clock = 0;
 
 int[][] LED = new int[NUMLEDS][3];
+//int LED[NUMLEDS][3];
 
-//float pulseVar[NUMLEDS];
-float[] pulseVar = new float[NUMLEDS];
+int[] b_pulseVar = new int[NUMLEDS];
+//int b_pulSevar[NUMLEDS];
 
 
 //int LEDx[NUMLEDS];
 //int LEDy[NUMLEDS];
 
+
+// solo en processing:
 int[] LEDx = new int [NUMLEDS];
 int[] LEDy = new int [NUMLEDS];
 
@@ -31,10 +34,18 @@ int[] LEDy = new int [NUMLEDS];
 // establecer posiciones
 
 
-float pulseValue = 1;
-float pulseSpeed = 0.1;
-float pulseMin = 0;
-float pulseMax = 1;
+/*
+int b_pulseValue = 122;
+int b_pulseSpeed = 10;
+int b_pulseMin = 0;
+int b_pulseMax = 255;
+
+*/
+
+int b_pulseValue = 122;
+int b_pulseSpeed = 10;
+int b_pulseMin = 0;
+int b_pulseMax = 255;
 
 
 
@@ -42,159 +53,166 @@ float pulseMax = 1;
 boolean[] fading = new boolean[NUMLEDS];
 //boolean fading[NUMLEDS];
 
+
+
+int[] b_fadeMod = new int[NUMLEDS];
+//int b_fadeMod[NUMLEDS];
+
+
+int[] b_fadeSteps = new int[NUMLEDS];
+//int b_fadeSteps[NUMLEDS];
+
+/*
+
 long[] fadeMs = new long[NUMLEDS];
 //long fadeMs[NUMLEDS];
 
-float[][] increase = new float[NUMLEDS][3];
-//float increase[NUMLEDS][3];
+*/
+
+// menos prioritario
+int[][] increase = new int[NUMLEDS][3];
+//int increase[NUMLEDS][3];
+
+
+
+int[][] b_target = new int[NUMLEDS][3];
+//byte b_target[NUMLEDS][3];
 
 
 long lastMillis;
 int ellapsed = 0;
-
-
+/*
+int b(int ubyte) {
+  if(ubyte>255) { ubyte = 255; }
+  return int(ubyte);
+}
+*/
 void setup() {
-  size(800,800);
   setupRangos();
   setupLEDs();
-  setPulse( 0.01, 0.1,0.6 );
+  setPulse( 70, 70, 90 );
+  setupProcessing();
+  setupArduino();
+  setupFades();
+  
+  test();
+
 }
 
 
-void setRango(int i, float pos, float pct ) {
-
+void draw() {
+  fwd();
+  showLEDs();
 }
 
 
-void setupRangos() {
-
-  rangoPos[0] = 0;
-  rangoPct[0] = 0.40;
-  rangoPos[1] = 0;
-  rangoPct[1] = 0.40;
-
-
-  rangoPos[2] = 0.45;
-  rangoPct[2] = 0.1;
-  rangoPos[3] = 0.45;
-  rangoPct[3] = 0.1;
-
-  rangoPos[4] = 0.40;
-  rangoPct[5] = 0.15;
-  rangoPos[5] = 0.40;
-  rangoPct[5] = 0.15;
-
-  rangoPos[6] = 0.55;
-  rangoPct[6] = 0.05;
-
-
-  rangoPos[7] = 0.60;
-  rangoPct[7] = 0.40;
-
-  rangoPos[8] = 0.60;
-  rangoPct[8] = 0.30;
-  rangoPos[9] = 0.60;
-  rangoPct[9] = 0.35;
-
-
-  rangoPos[10] = 0.60;
-  rangoPct[10] = 0.40;
-
-  rangoPos[11] = 0.60;
-  rangoPct[11] = 0.30;
-  rangoPos[12] = 0.60;
-  rangoPct[12] = 0.35;
-
- 
-}
-
-
-void setupLEDs(){
-
-// pulseVar en 1
 
 
 
-  // 1 cola1
-  // 69 cola2
-  // 136 ojo1
-  // 139 ojo2
-  // 142 cabeza1
-  // 166 cabeza2
-  // 193 cabeza3
-  // 201 pata1
-  // 227 pata2
-  // 257 pata3
-  // 308 pata4
-  // ? pata5
-  // ? pata6
+void test() {
 
-    // cola 1
-  setupStrip( 0, 250, 50, 68, 0, -1, 3);
-  // cola 2
-  setupStrip( 1, 400, 50, 67, 68, 1, 3);
-
-    // ojo 1
-  setupStrip( 2, 290, 250, 3, 135, -10, 0);
-  // ojo 2
-  setupStrip( 3, 360, 250, 3, 138, 10, 0);
-
-  // cabeza 1
-  setupStrip( 4, 225, 200, 24, 141, 2, 5);
-  // cabeza 2
-  setupStrip( 5, 425, 200, 27, 165, -2, 5);
-  // cabeza 3
-  setupStrip( 6, 290, 320, 8, 192, 10, 0);
-  
-  // tentaculo 1
-  setupStrip( 7, 200, 350, 26, 200, 0, 6);
-  
-  //brazo 1
-  setupStrip( 8, 230, 350, 30, 226, 0, 6);
-  
-  //brazo 2
-  setupStrip( 9, 260, 350, 51, 256, 0, 6);
-
-  // tentaculo 2
-  setupStrip( 7, 350, 350, 20, 307, 0, 6);
-  
-  //brazo 3
-  setupStrip( 8, 380, 350, 24, 327, 0, 6);
-  
-  //brazo 4
-  setupStrip( 9, 410, 350, 47, 351, 0, 6);
-
-/*
-  
-
-
-  // brazo 1
-  setupStrip( x, x, 10, 0);
-  // brazo 2
-  setupStrip( x, x, 10, 0);
-
-  // tentaculo largo 2
-  setupStrip( x, x, 10, 0);
-  // brazo 3
-  setupStrip( x, x, 10, 0);
-  // brazo 4
-  setupStrip( x, x, 10, 0);
-
-  */
-
-  setLEDs(0,0,0);
-  
   for( int i = 0; i < NUMLEDS; i++ ) {
-    fade(i,10000,(int)random(0,255),(int)random(0,255),(int)random(0,255));    
+      if( i < NUMLEDS / 2 ) fade(i,1,30,125,255);
+      else fade(i,2,230,125,155);
   }
-  
+
+
 }
+
+void setRango(int i, int pos, int pct ) {
+
+}
+
+
+
+
+
+void fwd() {
+  
+  pulse();
+  fwdClock();
+  fwdFade();
+  //setLEDarray();
+
+}
+
+
+void fwdClock() {
+  clock++;
+  clock%=32000;  
+}  
+
+
+
+
+void setLEDarray() {
+  /*for( int i = 0; i < LED.length; i++ ) {
+    int r,  g, b;
+
+   
+
+    LED[i][0] = int(r);
+    LED[i][1] = int(g);
+    LED[i][2] = int(b);
+    
+  }  
+  */
+}
+
+
+
+
+
+
+
+
+
+
+
+// convertir int a int para cambiar arduino x processing!
+
+
+
+
+void showLEDs() {
+  for( int i = 0; i < NUMLEDS; i++ ) {
+
+    float pulse = b_pulseValue / float ( 255 );
+    
+    fill( 
+      int( LED[i][0] * pulse ) ,
+      int( LED[i][1] * pulse ), 
+      int( LED[i][2] * pulse )
+    );
+    
+    noStroke();
+    ellipse( LEDx[i], LEDy[i], ELLIPSESIZE, ELLIPSESIZE );
+  }  
+}
+
+
+
+boolean trigger(int mod) {  
+
+  if( clock % mod == 0 ) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
 
 
 // funciones para setear valores LED
 
 // individualmente
 void setLED( int i, int r, int g, int b ) {
+
+  b_target[i][0] = r;
+  b_target[i][1] = g;
+  b_target[i][2] = b;
+
   LED[i][0] = r;
   LED[i][1] = g;
   LED[i][2] = b;
@@ -210,122 +228,89 @@ void setLEDs( int r, int g, int b ) {
 
 
 
-void setupStrip( int i, int offsetX, int offsetY, int numLeds, int offsetI, int addX, int addY ) {
-  /*
-  stripOffsetX[i] = offsetX; 
-  stripOffsetY[i] = offsetY;
-  */
-  for( int j = 0; j < numLeds; j++ ) {
-    LEDx[j+offsetI] = offsetX + j*addX;
-    LEDy[j+offsetI] = offsetY + j*addY;
-  }
+void setPulse(int speed, int min, int max) {
+  b_pulseSpeed = speed;
+  b_pulseMin = min;
+  b_pulseMax = max;
+  if( b_pulseValue < min ) b_pulseValue = min;
+  if( b_pulseValue < max ) b_pulseValue = max;
 }
 
-
-
-boolean disparar(int mod) {  
-  if( clock % mod == 0 ) {
-    return true;
-  }
-  else {
-    return false;
-  }
-}
-
-void fwd() {
-  ellapsed = int( millis() - lastMillis );
-  
-  println(ellapsed);
-  lastMillis = millis();
-  pulse();
-  fwdclock();
-  fwdFade();
-  setLEDarray();
-
-}
-
-
-void fwdclock() {
-  clock++;
-  clock%=32000;  
-}  
-
-
-void draw() {
-  fwd();
-  showLEDs();
-}
-
-
-void setLEDarray() {
-  for( int i = 0; i < LED.length; i++ ) {
-    int r, g, b;
-
-    r = 255;
-    g = 0;
-    b = 55;
-
-    LED[i][0] = int(r * pulseValue);
-    LED[i][1] = int(g * pulseValue);
-    LED[i][2] = int(b * pulseValue);
-    
-  }  
-}
-
-
-void setPulse(float speed, float min, float max) {
-  pulseSpeed = speed;
-  pulseMin = min;
-  pulseMax = max;
-  if( pulseValue < min ) pulseValue = min;
-  if( pulseValue > max ) pulseValue = max;
-}
 
 
 void pulse() {
-  pulseValue += pulseSpeed;
-  if( pulseValue > pulseMax || pulseValue <= pulseMin  ) pulseSpeed *= -1;
+  b_pulseValue += b_pulseSpeed;
+  if( b_pulseValue > b_pulseMax || b_pulseValue <= b_pulseMin  ) b_pulseSpeed *= -1;
   
- ;
-}
-
-void showLEDs() {
-  for( int i = 0; i < NUMLEDS; i++ ) {
-    fill( LED[i][0],LED[i][1],LED[i][2] );
-    noStroke();
-    ellipse( LEDx[i], LEDy[i], ELLIPSESIZE, ELLIPSESIZE );
-  }  
+  //println( b_pulseSpeed );
 }
 
 
 
+void fade( int i, int fadeMod, int r, int g, int b ) {
 
+  b_target[i][0] = r;
+  b_target[i][1] = g;
+  b_target[i][2] = b;
 
-void fade( int i, long ms, int r, int g, int b ) {
-  
-  float incR = 0.01;
-  float incG = 0.05;
-  float incB = 0.02;
+  if( fadeMod <= 0 ) fadeMod = 1;
 
-  increase[i][0] = incR;   
+  b_fadeMod[i] = fadeMod;
+  // Arduino
+  /*
+
+  */
+
+/*
+  increase[i][0] = ( r - LED[i][0] ) / steps;   
+  // println( int( ( LED[i][1] - r )  ) / ms );
+  // println(incG);
   increase[i][1] = incG;   
   increase[i][2] = incB;   
 
+  b_fadeSteps[i] = steps;
+*/
 }
+
+
+
+
+
 
 void fwdFade() {
-
   for( int i = 0; i < NUMLEDS; i++ ) {
-    fadeMs[i] -= ellapsed;
-    if( fadeMs[i] <= 0 ) {
+    if( trigger( b_fadeMod[i] ) ) {
+      for( int j = 0; j < 3; j++ ) {
 
-    } else {
+        if( b_target[i][j] != LED[i][j] ) {
+          print("LED" + j + ": ");
+          println( LED[i][j] );
 
-        LED[i][0] += ellapsed * ( 255 * increase[i][0] );
-        LED[i][1] += ellapsed * ( 255 * increase[i][1] );
-        LED[i][2] += ellapsed * ( 255 * increase[i][2] );
+          /*
+          print("LED:");
+          println( LED[i][j] );
+          */
+          // posible optimizacino metiendo checktarget boolean        
+          
+          if( b_target[i][j] > LED[i][j] ) {
+            LED[i][j] = LED[i][j] + 1;//++;          
 
-    }
-  }  
+          } else {
+            LED[i][j]--;
+          } 
+
+        }
+
+      }
+
+    }  
+
+
+  }
 }
+
+
+
+
+/**/
 

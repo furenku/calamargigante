@@ -54,12 +54,17 @@ int ellapsed = 0;
 
 
 void setup() {
-  size(800,800);
   setupRangos();
   setupLEDs();
   setPulse( 0.01, 0.1,0.6 );
+  setupProcessing();
 }
 
+
+void setupProcessing() {
+  size(800,800);
+  background(30,30,30);
+}
 
 void setRango(int i, float pos, float pct ) {
 
