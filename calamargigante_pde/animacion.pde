@@ -17,6 +17,22 @@ int[] fillB2 = new int [NUMFILLS];
 int[] fillWait = new int [NUMFILLS];
 boolean[] fillActive = new boolean [NUMFILLS];
 
+// ARDUINO
+/*
+
+int fillCurrent[NUMFILLS];
+int fillStart[NUMFILLS];
+int fillEnd[NUMFILLS];
+int fillR1[NUMFILLS];
+int fillG1[NUMFILLS];
+int fillB1[NUMFILLS];
+int fillR2[NUMFILLS];
+int fillG2[NUMFILLS];
+int fillB2[NUMFILLS];
+int fillWait[NUMFILLS];
+boolean fillActive[NUMFILLS];
+
+*/
 
 int fillNum = 0;
 
@@ -103,4 +119,16 @@ void fill() {
 		filling = false;
 	}
 	
+}
+
+
+
+
+void fillWhole( int wait, int r1, int g1, int b1, int r2, int g2, int b2 ) {
+
+
+	addFill( stripStart[0], stripEnd[0], wait, r1,g1,b1,r2,g2,b2 );
+	addFill( stripStart[1], stripEnd[1], wait, r1,g1,b1,r2,g2,b2  );
+
+
 }

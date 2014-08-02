@@ -1,25 +1,43 @@
 // variables
 
+/*
+#define NUMLEDS 3
+#define NUMSTRIPS 13
+
+int LED[NUMLEDS][3];
+
+
+int stripStart[NUMSTRIPS];
+int stripEnd[NUMSTRIPS];
+
+
+int b_rangoPos[NUMSTRIPS];
+int b_rangoPct[NUMSTRIPS];
+
+int b_pulseVar[NUMLEDS];
+
+
+boolean fading[NUMLEDS];
+int b_fadeMod[NUMLEDS];
+int b_fadeSteps[NUMLEDS];
+int increase[NUMLEDS][3];
+
+byte b_target[NUMLEDS][3];
+
+*/
+
 int NUMLEDS = 400;
 int NUMSTRIPS = 13;
 int ELLIPSESIZE  = 10;
 
-int[] b_rangoPos = new int[NUMSTRIPS];
-//int b_rangoPos[NUMSTRIPS];
-int[] b_rangoPct = new int[NUMSTRIPS];
-//int b_rangoPct[NUMSTRIPS];
 
 
 
 
-//int LED[NUMLEDS];
+
 int clock = 0;
 
-int[][] LED = new int[NUMLEDS][3];
-//int LED[NUMLEDS][3];
 
-int[] b_pulseVar = new int[NUMLEDS];
-//int b_pulseVar[NUMLEDS];
 
 
 //int LEDx[NUMLEDS];
@@ -27,6 +45,24 @@ int[] b_pulseVar = new int[NUMLEDS];
 
 
 // solo en processing:
+int[][] LED = new int[NUMLEDS][3];
+
+
+int[] stripStart = new int[NUMSTRIPS];
+int[] stripEnd = new int[NUMSTRIPS];
+
+
+int[] b_rangoPos = new int[NUMSTRIPS];
+int[] b_rangoPct = new int[NUMSTRIPS];
+
+int[] b_pulseVar = new int[NUMLEDS];
+
+boolean[] fading = new boolean[NUMLEDS];
+int[] b_fadeMod = new int[NUMLEDS];
+int[] b_fadeSteps = new int[NUMLEDS];
+int[][] increase = new int[NUMLEDS][3];
+int[][] b_target = new int[NUMLEDS][3];
+
 int[] LEDx = new int [NUMLEDS];
 int[] LEDy = new int [NUMLEDS];
 
@@ -34,59 +70,16 @@ int[] LEDy = new int [NUMLEDS];
 // establecer posiciones
 
 
-/*
-int b_pulseValue = 122;
-int b_pulseSpeed = 10;
-int b_pulseMin = 0;
-int b_pulseMax = 255;
-
-*/
 
 int b_pulseValue = 122;
 int b_pulseSpeed = 10;
 int b_pulseMin = 0;
 int b_pulseMax = 255;
-
-
-
-
-boolean[] fading = new boolean[NUMLEDS];
-//boolean fading[NUMLEDS];
-
-
-
-int[] b_fadeMod = new int[NUMLEDS];
-//int b_fadeMod[NUMLEDS];
-
-
-int[] b_fadeSteps = new int[NUMLEDS];
-//int b_fadeSteps[NUMLEDS];
-
-/*
-
-long[] fadeMs = new long[NUMLEDS];
-//long fadeMs[NUMLEDS];
-
-*/
-
-// menos prioritario
-int[][] increase = new int[NUMLEDS][3];
-//int increase[NUMLEDS][3];
-
-
-
-int[][] b_target = new int[NUMLEDS][3];
-//byte b_target[NUMLEDS][3];
-
 
 long lastMillis;
 int ellapsed = 0;
-/*
-int b(int ubyte) {
-  if(ubyte>255) { ubyte = 255; }
-  return int(ubyte);
-}
-*/
+
+
 void setup() {
   setupRangos();
   setupLEDs();
