@@ -36,9 +36,9 @@ para que se puedan concatenar fades
 
 // vars
 
-pulso por zonas distinttas seccs
+X pulso por zonas distinttas seccs
 
-intensidad general
+X intensidad general
 
 brillo por zonas
 
@@ -55,7 +55,7 @@ chaser
 
 blink
 
-fill ( direccion , duracion, colorrgb )
+X fill ( direccion , duracion, colorrgb )
 fillGradient ( direccion , color1rgb, color2rgb  )
 fillGradient ( direccion , color1rgb, color2rgb, color3rgb  )
 
@@ -64,10 +64,11 @@ fillBlur
 
 
 
-pulseRangeFAde(min1,max1,min2,max2)
+X pulseRangeFAde(min1,max1,min2,max2)
+danceAround()
+
 chaiserTrail
 aumentarBrilloZona
-danceAround()
 resplandor( centro ) 
 contagiarColor() {
 	// duraciones de fade diferidas

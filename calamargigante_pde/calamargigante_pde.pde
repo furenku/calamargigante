@@ -90,7 +90,6 @@ int b(int ubyte) {
 void setup() {
   setupRangos();
   setupLEDs();
-  setPulse( 1, 50, 190 );
   setupProcessing();
   setupArduino();
   setupFades();
@@ -122,6 +121,12 @@ void fwd() {
   fwdClock();
   fwdFade();
   //setLEDarray();
+
+
+  // animaciones
+  if( filling ) {
+    fill();
+  }
 
 }
 
@@ -183,9 +188,9 @@ void showLEDs() {
     float totalPulse = rangePulse * pulse;
 
     fill( 
-      int( LED[i][0] * totalPulse ) ,
-      int( LED[i][1] * totalPulse ), 
-      int( LED[i][2] * totalPulse )
+      int( LED[i][0] * totalPulse * generalBrightness ) ,
+      int( LED[i][1] * totalPulse * generalBrightness ), 
+      int( LED[i][2] * totalPulse * generalBrightness )
     );
     
     noStroke();

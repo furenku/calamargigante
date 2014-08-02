@@ -1,5 +1,4 @@
-
-
+int pulseRangeNum = 0;
 
 int[] pulseRangeValue = new int [4];
 int[] pulseRangeStart = new int [4];
@@ -9,9 +8,7 @@ int[] pulseRangeMax = new int [4];
 int[] pulseRangeSpeed = new int [4];
 int[] pulseRangeSpeedMin = new int [4];
 int[] pulseRangeSpeedMax = new int [4];
-//byte pulseRangeSpeed = new int [4];
 int[] pulseRangeAcceleration = new int [4];
-//byte pulseRangeAcceleration = new int [4];
 
 
 
@@ -25,11 +22,8 @@ int pulseRangeMax[4];
 int pulseRangeSpeed[4];
 int pulseRangeSpeedMin[4];
 int pulseRangeSpeedMax[4];
-//byte pulseRangeSpeed[4];
 int pulseRangeAcceleration[4];
-//byte pulseRangeAcceleration[4];
 */
-int pulseRangeNum = 0;
 
 void clearPulses() {
 	pulseRangeNum=0;

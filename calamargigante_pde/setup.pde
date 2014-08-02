@@ -1,5 +1,10 @@
 
+float generalBrightness = 1;
 
+
+void setBrightness( float b ) {
+  generalBrightness = b;
+}
 
 void setupArduino(){
 
