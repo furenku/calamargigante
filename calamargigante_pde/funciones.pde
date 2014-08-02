@@ -1,3 +1,14 @@
+
+int pong( int val, int pongMin, int pongMax ) {
+	int dir = 1;
+	if( val < pongMin || val > pongMax ) {
+		dir = -1;
+	}
+	return dir;
+
+}
+
+
 /*
 uint32_t Color(uint8_t r, uint8_t g, uint8_t b) {
   return ((uint32_t)r << 16) | ((uint32_t)g <<  8) | b;

@@ -19,7 +19,7 @@ int[][] LED = new int[NUMLEDS][3];
 //int LED[NUMLEDS][3];
 
 int[] b_pulseVar = new int[NUMLEDS];
-//int b_pulSevar[NUMLEDS];
+//int b_pulseVar[NUMLEDS];
 
 
 //int LEDx[NUMLEDS];
@@ -90,7 +90,7 @@ int b(int ubyte) {
 void setup() {
   setupRangos();
   setupLEDs();
-  setPulse( 70, 70, 90 );
+  setPulse( 1, 50, 190 );
   setupProcessing();
   setupArduino();
   setupFades();
@@ -107,18 +107,6 @@ void draw() {
 
 
 
-
-
-void test() {
-
-  for( int i = 0; i < NUMLEDS; i++ ) {
-      if( i < NUMLEDS / 2 ) fade(i,1,30,125,255);
-      else fade(i,2,230,125,155);
-  }
-
-
-}
-
 void setRango(int i, int pos, int pct ) {
 
 }
@@ -130,6 +118,7 @@ void setRango(int i, int pos, int pct ) {
 void fwd() {
   
   pulse();
+  pulses();
   fwdClock();
   fwdFade();
   //setLEDarray();
@@ -177,12 +166,26 @@ void setLEDarray() {
 void showLEDs() {
   for( int i = 0; i < NUMLEDS; i++ ) {
 
-    float pulse = b_pulseValue / float ( 255 );
     
+    boolean inRange = false;
+    float rangePulse = 1;
+
+    for( int j = 0; j < pulseRangeNum; j++ ) {
+      if( pong( i,  pulseRangeMin[ j ],  pulseRangeMax[ j ] ) == 1 ) {
+        inRange = true;       
+        rangePulse = pulseRangeValue[ j ] / float( 255 );
+        break;
+      }
+    }
+
+    float pulse = b_pulseValue / float ( 255 );
+
+    float totalPulse = rangePulse * pulse;
+
     fill( 
-      int( LED[i][0] * pulse ) ,
-      int( LED[i][1] * pulse ), 
-      int( LED[i][2] * pulse )
+      int( LED[i][0] * totalPulse ) ,
+      int( LED[i][1] * totalPulse ), 
+      int( LED[i][2] * totalPulse )
     );
     
     noStroke();
@@ -240,8 +243,7 @@ void setPulse(int speed, int min, int max) {
 
 void pulse() {
   b_pulseValue += b_pulseSpeed;
-  if( b_pulseValue > b_pulseMax || b_pulseValue <= b_pulseMin  ) b_pulseSpeed *= -1;
-  
+  b_pulseSpeed *= pong( b_pulseValue, b_pulseMin, b_pulseMax );  
   //println( b_pulseSpeed );
 }
 
@@ -249,6 +251,8 @@ void pulse() {
 
 void fade( int i, int fadeMod, int r, int g, int b ) {
 
+  fading[i] = true;
+  
   b_target[i][0] = r;
   b_target[i][1] = g;
   b_target[i][2] = b;
@@ -276,13 +280,20 @@ void fade( int i, int fadeMod, int r, int g, int b ) {
 
 
 
+int fadeCounter;
+//byte fadeCounter;
+
+int fadeNum = 1;
+//byte fadeNum;
 
 void fwdFade() {
   for( int i = 0; i < NUMLEDS; i++ ) {
     if( trigger( b_fadeMod[i] ) ) {
+      boolean fadeEnded = true;
       for( int j = 0; j < 3; j++ ) {
-
         if( b_target[i][j] != LED[i][j] ) {
+          fadeEnded = false;
+
           print("LED" + j + ": ");
           println( LED[i][j] );
 
@@ -302,7 +313,14 @@ void fwdFade() {
         }
 
       }
+      if( fadeEnded ) {
+        fading[i] = false;
 
+        fadeCounter++;
+
+        fadeCounter %= fadeNum;
+
+      }
     }  
 
 

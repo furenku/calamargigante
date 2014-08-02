@@ -1,0 +1,95 @@
+
+
+// 2
+
+// animacion centro afuera
+
+// tempo que va bajando, retoma
+
+// intensidad global subiendo gradualmente
+// rgb(rojorosa)
+
+3. // calamar se enfada
+
+// ojo se prende 100% probar ambar o magenta
+// del centro del pulso se esparce un color a todo el calamar
+// pulso sube de ritmo, baja poquito despacio
+// ojo baja a magenta, luego baja a rojo
+
+
+
+
+
+
+resplandor breve al golpear pelota la cola
+
+
+
+FADE MANAGER
+
+para que se puedan concatenar fades
+
+
+// posible optimizacino metiendo checktarget boolean
+
+
+
+// vars
+
+pulso por zonas distinttas seccs
+
+intensidad general
+
+brillo por zonas
+
+
+concatenar fades
+
+multiples animaciones paralelas
+//alternate( pulseRamp( 1 ), pulseRamp( -1 ) )
+// segundos
+randombackForth( pulseRamp( 1 ), pulseRamp( -1 ), 5 )
+
+chaser
+
+
+blink
+
+fill ( direccion , duracion, colorrgb )
+fillGradient ( direccion , color1rgb, color2rgb  )
+fillGradient ( direccion , color1rgb, color2rgb, color3rgb  )
+
+fillBlur
+
+
+
+
+pulseRangeFAde(min1,max1,min2,max2)
+chaiserTrail
+aumentarBrilloZona
+danceAround()
+resplandor( centro ) 
+contagiarColor() {
+	// duraciones de fade diferidas
+}
+randomSet
+
+
+slowblink(
+fade que se inactiva un poquito cuando está prendido
+)
+
+
+estaticaFade
+navidadFAde
+rosaFade
+slowWalk( direccion )
+hold
+
+
+
+
+
+
+
+
