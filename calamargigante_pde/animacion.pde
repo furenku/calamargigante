@@ -44,6 +44,7 @@ void clearFills() {
 void addFill( int start, int end, int wait, int r1, int g1, int b1, int r2, int g2, int b2 ) {
 	fillCurrent[fillNum] = start;
 	fillStart[fillNum] = start;
+	if( fillEnd[fillNum] > NUMLEDS - 1 ) fillEnd[fillNum] = NUMLEDS - 1 ;
 	fillEnd[fillNum] = end;
 	fillWait[fillNum] = wait;
 	
@@ -56,8 +57,8 @@ void addFill( int start, int end, int wait, int r1, int g1, int b1, int r2, int 
 
 	fillActive[fillNum] = true;
 	
-	fillNum++;
 	fillNum %= NUMFILLS;
+	fillNum++;
 
 	filling = true;
 }
@@ -72,7 +73,7 @@ void fill() {
 		if( trigger( fillWait[i] ) ) {
 
 			int stepsNum = abs( fillEnd[i] - fillStart[i] );
-			int currentStep = abs( fillEnd[i] - fillCurrent[i] );
+			int currentStep = abs( fillCurrent[i] - fillStart[i] );
 			float currentPct = currentStep / float( stepsNum );
 
 			int currentR = fillR1[i] + int( ( fillR2[i] - fillR1[i] ) * currentPct );
@@ -122,13 +123,41 @@ void fill() {
 }
 
 
+void bodyFill( int i, int wait, int r1, int g1, int b1, int r2, int g2, int b2 ) {
 
+	float pos = (b_rangoPos[i]/float(255));
+	float pct = (b_rangoPct[i]/float(255));
+
+
+	print("i: ");
+	println( i );
+
+	print("pos: ");
+	print( pos );
+	print(" | pct: ");
+	print( pct );
+	print(" | r1: ");
+	println( r1+int((r2-r1)*pos) );
+
+	addFill( stripStart[i], stripEnd[i], wait, //r1,g1,b1, r2,g2,b2		
+		r1+int((r2-r1)*pos),
+		g1+int((g2-g1)*pos),
+		b1+int((b2-b1)*pos),
+		r1+ int( ((r2-r1 )* (pos+pct) ) ),
+		g1 + int( ((g2-g1 )* (pos+pct) ) ),
+		b1 + int( ((b2-b1 )* (pos+pct) ) )
+	);
+}
 
 void fillWhole( int wait, int r1, int g1, int b1, int r2, int g2, int b2 ) {
+/*
+  addFill( stripStart[0], stripEnd[0], 1, 255, 0, 0, 0, 255, 255 );
+  addFill( stripStart[1], stripEnd[1], 1, 255, 0, 0, 0, 255, 255 );
+*/
 
+//		bodyFill(0, 1, r1,g1,b1, r2,g2,b2 );
 
-	addFill( stripStart[0], stripEnd[0], wait, r1,g1,b1,r2,g2,b2 );
-	addFill( stripStart[1], stripEnd[1], wait, r1,g1,b1,r2,g2,b2  );
-
-
+	for(int j = 0; j < NUMSTRIPS; j++ ) {
+		bodyFill(j, 1, r1,g1,b1, r2,g2,b2 );
+	} 
 }
