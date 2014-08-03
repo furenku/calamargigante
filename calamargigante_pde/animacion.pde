@@ -34,6 +34,118 @@ boolean fillActive[NUMFILLS];
 
 */
 
+
+
+boolean[] fading = new boolean[NUMLEDS];
+int[] b_fadeMod = new int[NUMLEDS];
+int[] b_fadeAmount = new int[NUMLEDS];
+int[] b_fadeSteps = new int[NUMLEDS];
+int[][] increase = new int[NUMLEDS][3];
+int[][] b_target = new int[NUMLEDS][3];
+
+
+void fade( int i, int fadeMod, int fadeAmount, int r, int g, int b ) {
+
+  fading[i] = true;
+  b_fadeAmount[i] = fadeAmount;
+
+  b_target[i][0] = r;
+  b_target[i][1] = g;
+  b_target[i][2] = b;
+
+  if( fadeMod <= 0 ) fadeMod = 1;
+
+  b_fadeMod[i] = fadeMod;
+  // Arduino
+  /*
+
+  */
+
+/*
+  increase[i][0] = ( r - LED[i][0] ) / steps;   
+  // println( int( ( LED[i][1] - r )  ) / ms );
+  // println(incG);
+  increase[i][1] = incG;   
+  increase[i][2] = incB;   
+
+  b_fadeSteps[i] = steps;
+*/
+
+}
+
+
+
+
+int fadeCounter;
+//byte fadeCounter;
+
+int fadeNum = 1;
+//byte fadeNum;
+
+void fwdFade() {
+  for( int i = 0; i < NUMLEDS; i++ ) {
+    if( trigger( b_fadeMod[i] ) ) {
+      boolean fadeEnded = true;
+      for( int j = 0; j < 3; j++ ) {
+        if( b_target[i][j] != LED[i][j] ) {
+          fadeEnded = false;
+
+          // posible optimizacino metiendo checktarget boolean        
+          
+          if( b_target[i][j] > LED[i][j] ) {
+            LED[i][j] += b_fadeAmount[i];
+
+          } else {
+            LED[i][j] -= b_fadeAmount[i];;
+          } 
+
+        }
+
+      }
+      if( fadeEnded ) {
+        fading[i] = false;
+
+        fadeCounter++;
+
+        fadeCounter %= fadeNum;
+
+      }
+    }  
+
+
+  }
+}
+
+
+
+
+
+
+
+void fadeStrip(int i, int fadeMod, int fadeAmount, int r, int g, int b) {
+	for(int j = stripStart[i]; j < stripEnd[i]; j++ ){
+		fade(j, fadeMod, fadeAmount, r,g,b);
+	}
+}
+
+
+
+
+void fadeEyes( int fadeMod, int fadeAmount, int r, int g, int b ){
+
+
+  fadeStrip(2,fadeMod, fadeAmount, r,g,b);
+  fadeStrip(3,fadeMod, fadeAmount, r,g,b);
+}
+
+
+
+
+
+
+
+
+/**************** FILL ***************************/
 int fillNum = 0;
 
 
@@ -123,33 +235,38 @@ void fill() {
 }
 
 
-void bodyFill( int i, int wait, int r1, int g1, int b1, int r2, int g2, int b2 ) {
+void bodyFill( int i, int wait, int r1, int g1, int b1, int r2, int g2, int b2, boolean directionDown ) {
+	if( i != 2 && i != 3 ) {
 
-	float pos = (b_rangoPos[i]/float(255));
-	float pct = (b_rangoPct[i]/float(255));
+		float pos = (b_rangoPos[i]/float(255));
+		float pct = (b_rangoPct[i]/float(255));
 
+		if( directionDown ) {	
+			addFill( stripStart[i], stripEnd[i], wait, //r1,g1,b1, r2,g2,b2		
+			r1+int((r2-r1)*pos),
+			g1+int((g2-g1)*pos),
+			b1+int((b2-b1)*pos),
+			r1+ int( ((r2-r1 )* (pos+pct) ) ),
+			g1 + int( ((g2-g1 )* (pos+pct) ) ),
+			b1 + int( ((b2-b1 )* (pos+pct) ) )
+		);
+		}
+		else {
+			addFill( stripEnd[i], stripStart[i], wait, //r1,g1,b1, r2,g2,b2		
+			r2 - int( ((r2-r1 )* (pos+pct) ) ),
+			g2 - int( ((g2-g1 )* (pos+pct) ) ),
+			b2 - int( ((b2-b1 )* (pos+pct) ) ),
+			r2-int((r2-r1)*pos),
+			g2-int((g2-g1)*pos),
+			b2-int((b2-b1)*pos)
+		);
+		}
 
-	print("i: ");
-	println( i );
-
-	print("pos: ");
-	print( pos );
-	print(" | pct: ");
-	print( pct );
-	print(" | r1: ");
-	println( r1+int((r2-r1)*pos) );
-
-	addFill( stripStart[i], stripEnd[i], wait, //r1,g1,b1, r2,g2,b2		
-		r1+int((r2-r1)*pos),
-		g1+int((g2-g1)*pos),
-		b1+int((b2-b1)*pos),
-		r1+ int( ((r2-r1 )* (pos+pct) ) ),
-		g1 + int( ((g2-g1 )* (pos+pct) ) ),
-		b1 + int( ((b2-b1 )* (pos+pct) ) )
-	);
+	}
 }
 
-void fillWhole( int wait, int r1, int g1, int b1, int r2, int g2, int b2 ) {
+void fillWhole( int wait, int r1, int g1, int b1, int r2, int g2, int b2, boolean directionDown) {
+
 /*
   addFill( stripStart[0], stripEnd[0], 1, 255, 0, 0, 0, 255, 255 );
   addFill( stripStart[1], stripEnd[1], 1, 255, 0, 0, 0, 255, 255 );
@@ -158,6 +275,9 @@ void fillWhole( int wait, int r1, int g1, int b1, int r2, int g2, int b2 ) {
 //		bodyFill(0, 1, r1,g1,b1, r2,g2,b2 );
 
 	for(int j = 0; j < NUMSTRIPS; j++ ) {
-		bodyFill(j, 1, r1,g1,b1, r2,g2,b2 );
+		bodyFill(j, 1, r1,g1,b1, r2,g2,b2, directionDown );			
 	} 
 }
+
+
+

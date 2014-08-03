@@ -61,7 +61,7 @@ fillGradient ( direccion , color1rgb, color2rgb, color3rgb  )
 
 fillBlur
 
-
+- bodyFill (falta coordinar fades pa que se vea secuencial)
 
 
 X pulseRangeFAde(min1,max1,min2,max2)

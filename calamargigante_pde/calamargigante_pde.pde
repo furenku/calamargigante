@@ -17,10 +17,6 @@ int b_rangoPct[NUMSTRIPS];
 int b_pulseVar[NUMLEDS];
 
 
-boolean fading[NUMLEDS];
-int b_fadeMod[NUMLEDS];
-int b_fadeSteps[NUMLEDS];
-int increase[NUMLEDS][3];
 
 byte b_target[NUMLEDS][3];
 
@@ -57,11 +53,6 @@ int[] b_rangoPct = new int[NUMSTRIPS];
 
 int[] b_pulseVar = new int[NUMLEDS];
 
-boolean[] fading = new boolean[NUMLEDS];
-int[] b_fadeMod = new int[NUMLEDS];
-int[] b_fadeSteps = new int[NUMLEDS];
-int[][] increase = new int[NUMLEDS][3];
-int[][] b_target = new int[NUMLEDS][3];
 
 int[] LEDx = new int [NUMLEDS];
 int[] LEDy = new int [NUMLEDS];
@@ -71,9 +62,9 @@ int[] LEDy = new int [NUMLEDS];
 
 
 
-int b_pulseValue = 122;
-int b_pulseSpeed = 10;
-int b_pulseMin = 0;
+int b_pulseValue = 255;
+int b_pulseSpeed = 0;
+int b_pulseMin = 255;
 int b_pulseMax = 255;
 
 long lastMillis;
@@ -240,88 +231,9 @@ void setPulse(int speed, int min, int max) {
 
 
 void pulse() {
-  b_pulseValue += b_pulseSpeed;
-  b_pulseSpeed *= pong( b_pulseValue, b_pulseMin, b_pulseMax );  
-  //println( b_pulseSpeed );
-}
-
-
-
-void fade( int i, int fadeMod, int r, int g, int b ) {
-
-  fading[i] = true;
-  
-  b_target[i][0] = r;
-  b_target[i][1] = g;
-  b_target[i][2] = b;
-
-  if( fadeMod <= 0 ) fadeMod = 1;
-
-  b_fadeMod[i] = fadeMod;
-  // Arduino
-  /*
-
-  */
-
-/*
-  increase[i][0] = ( r - LED[i][0] ) / steps;   
-  // println( int( ( LED[i][1] - r )  ) / ms );
-  // println(incG);
-  increase[i][1] = incG;   
-  increase[i][2] = incB;   
-
-  b_fadeSteps[i] = steps;
-*/
-}
-
-
-
-
-
-int fadeCounter;
-//byte fadeCounter;
-
-int fadeNum = 1;
-//byte fadeNum;
-
-void fwdFade() {
-  for( int i = 0; i < NUMLEDS; i++ ) {
-    if( trigger( b_fadeMod[i] ) ) {
-      boolean fadeEnded = true;
-      for( int j = 0; j < 3; j++ ) {
-        if( b_target[i][j] != LED[i][j] ) {
-          fadeEnded = false;
-
-          print("LED" + j + ": ");
-          println( LED[i][j] );
-
-          /*
-          print("LED:");
-          println( LED[i][j] );
-          */
-          // posible optimizacino metiendo checktarget boolean        
-          
-          if( b_target[i][j] > LED[i][j] ) {
-            LED[i][j] = LED[i][j] + 1;//++;          
-
-          } else {
-            LED[i][j]--;
-          } 
-
-        }
-
-      }
-      if( fadeEnded ) {
-        fading[i] = false;
-
-        fadeCounter++;
-
-        fadeCounter %= fadeNum;
-
-      }
-    }  
-
-
+  if( b_pulseSpeed > 0) {
+    b_pulseValue += b_pulseSpeed;
+    b_pulseSpeed *= pong( b_pulseValue, b_pulseMin, b_pulseMax );  
   }
 }
 
