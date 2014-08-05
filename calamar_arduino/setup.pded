@@ -1,0 +1,58 @@
+
+void setupStrips() {
+
+// pulseVar en 1
+
+
+
+  // 1 cola1
+  // 69 cola2
+  // 136 ojo1
+  // 139 ojo2
+  // 142 cabeza1
+  // 166 cabeza2
+  // 193 cabeza3
+  // 201 pata1
+  // 227 pata2
+  // 257 pata3
+  // 308 pata4
+  // ? pata5
+  // ? pata6
+
+    // cola 1
+  setupStrip( 0, 250, 50, 68, 0, -1, 3);
+  // cola 2
+  setupStrip( 1, 400, 50, 67, 68, 1, 3);
+
+    // ojo 1
+  setupStrip( 2, 290, 250, 3, 135, -10, 0);
+  // ojo 2
+  setupStrip( 3, 360, 250, 3, 138, 10, 0);
+
+  // cabeza 1
+  setupStrip( 4, 225, 200, 24, 141, 2, 5);
+  // cabeza 2
+  setupStrip( 5, 425, 200, 27, 165, -2, 5);
+  // cabeza 3
+  setupStrip( 6, 290, 320, 8, 192, 10, 0);
+  
+  // tentaculo 1
+  setupStrip( 7, 200, 350, 26, 200, 0, 6);
+  
+  //brazo 1
+  setupStrip( 8, 230, 350, 30, 226, 0, 6);
+  
+  //brazo 2
+  setupStrip( 9, 260, 350, 51, 256, 0, 6);
+
+  // tentaculo 2
+  setupStrip( 7, 350, 350, 20, 307, 0, 6);
+  
+  //brazo 3
+  setupStrip( 8, 380, 350, 24, 327, 0, 6);
+  
+  //brazo 4
+  setupStrip( 9, 410, 350, 47, 351, 0, 6);
+
+
+}

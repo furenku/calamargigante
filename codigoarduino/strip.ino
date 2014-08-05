@@ -1,35 +1,26 @@
+void setupStrip() {
 
-
-
-void setBrightness( float b ) {
-  generalBrightness = b;
-}
-
-void setupArduino(){
-
-}
-
-
-void setupLEDs(){
-
+  strip.begin();
+  strip.show();  
   setupStrips();
-
-
-  setLEDs(0,0,0);
-  
+  setupRangos(); 
 
 }
 
 
+void showLeds() {
+  uint32_t pv = ((uint32_t) pulseVal );
+  for (uint16_t i = 0; i < NUMLEDS; i++ ) {
+    strip.setPixelColor(i, //leds[i] );
+        strip.Color( 
+          getR(leds[i])*pulseVal,
+          getG(leds[i])*pulseVal,
+          getB(leds[i])*pulseVal          
+        ));
 
-void setupFades() {
-  for( int i = 0; i < NUMLEDS; i++ ) {
-    b_fadeMod[i] = 10;
   }
+  strip.show();
 }
-
-/* SOLO PROCESSING */
-
 
 
 
@@ -102,15 +93,8 @@ void setupStrips() {
 
 
 
-
-
-
-/* TERMINA SOLO PROCESSING */
-
-
-
 void setupRangos() {
-
+  
   b_rangoPos[0] = 0;
   b_rangoPct[0] = 100;
   b_rangoPos[1] = 0;
@@ -148,52 +132,5 @@ void setupRangos() {
   b_rangoPos[12] = 150;
   b_rangoPct[12] = 87;
 
-
 }
 
-
-
-
-/*
-void setupRangosF() {
-
-  b_rangoPos[0] = 0;
-  b_rangoPct[0] = 0.40;
-  b_rangoPos[1] = 0;
-  b_rangoPct[1] = 0.40;
-
-
-  b_rangoPos[2] = 0.45;
-  b_rangoPct[2] = 0.1;
-  b_rangoPos[3] = 0.45;
-  b_rangoPct[3] = 0.1;
-
-  b_rangoPos[4] = 0.40;
-  b_rangoPct[5] = 0.15;
-  b_rangoPos[5] = 0.40;
-  b_rangoPct[5] = 0.15;
-
-  b_rangoPos[6] = 0.55;
-  b_rangoPct[6] = 0.05;
-
-
-  b_rangoPos[7] = 0.60;
-  b_rangoPct[7] = 0.40;
-
-  b_rangoPos[8] = 0.60;
-  b_rangoPct[8] = 0.30;
-  b_rangoPos[9] = 0.60;
-  b_rangoPct[9] = 0.35;
-
-
-  b_rangoPos[10] = 0.60;
-  b_rangoPct[10] = 0.40;
-
-  b_rangoPos[11] = 0.60;
-  b_rangoPct[11] = 0.30;
-  b_rangoPos[12] = 0.60;
-  b_rangoPct[12] = 0.35;
-
-
-}
-*/

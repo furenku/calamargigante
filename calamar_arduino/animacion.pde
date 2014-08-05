@@ -108,15 +108,9 @@ void fwdFade() {
           
           if( b_target[i][j] > LED[i][j] ) {
             LED[i][j] += b_fadeAmount[i];
-            if( LED[i][j] >= 255 ) {
-            	LED[i][j] = 255;
-            }
 
           } else {
             LED[i][j] -= b_fadeAmount[i];;
-			if( LED[i][j] <= 0 ) {
-            	LED[i][j] = 0;
-            }
           } 
 
         }

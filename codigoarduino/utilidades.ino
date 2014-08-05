@@ -7,10 +7,15 @@ int pong( int val, int pongMin, int pongMax ) {
 }
 
 
-/*
-uint32_t Color(uint8_t r, uint8_t g, uint8_t b) {
-  return ((uint32_t)r << 16) | ((uint32_t)g <<  8) | b;
+void fwdClock() {
+  
+  clock++;
+  clock%=30000;
+  
 }
+
+
+
 
 byte getR(uint32_t pixel){
   byte c = (pixel >> 16) & 0xFF;
@@ -27,4 +32,11 @@ byte getB(uint32_t pixel){
   return c;
 }
 
-*/
+
+
+boolean trigger( byte mod ) {
+    if( clock % mod == 0 )
+    	return true;
+    else
+    	return false;
+}

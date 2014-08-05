@@ -49,7 +49,6 @@ int ELLIPSESIZE  = 10;
 
 
 int[][] LED = new int[NUMLEDS][3];
-int[][] drawLED = new int[NUMLEDS][3];
 
 
 int[] stripStart = new int[NUMSTRIPS];
@@ -80,43 +79,17 @@ void setup() {
   setupArduino();
   setupFades();
   
-
-  setupSerial();
-
-
   test();
-
-  serial.start();
 
 }
 
 void loop() {
   fwd();
   showLEDs();
-
-  //writeSerial();
 }
 void draw() {
   fwd();
-
-
-  thread("setLEDdraw");
-  //writeSerial();
-
-  //randomRGBarray();
-  //thread( "drawLEDs" );
-  thread("drawLEDs");
-  //writeSerial();
-  /*
-  writeSerial();
-  
-*/
-//thread( "writeSerial" );
-  //println(frameRate);
-
-  
-readSerial();
-
+  drawLEDs();
 }
 
 
@@ -142,8 +115,6 @@ void fwd() {
   if( filling ) {
     fill();
   }
-
-  holdFwd();
 
 }
 
@@ -184,7 +155,8 @@ void setLEDarray() {
 
 
 
-void setLEDdraw() {
+
+void drawLEDs() {
   for( int i = 0; i < NUMLEDS; i++ ) {
 
     float rangePulse = getRangePulse(i);
@@ -192,27 +164,10 @@ void setLEDdraw() {
     float pulse = b_pulseValue / float ( 255 );
 
     float totalPulse = rangePulse * pulse;
-        
-    drawLED[i][0] = int( LED[i][0] * totalPulse * generalBrightness );
-    drawLED[i][1] = int( LED[i][1] * totalPulse * generalBrightness );
-    drawLED[i][2] = int( LED[i][2] * totalPulse * generalBrightness );
-    if( drawLED[i][0] == 65 ) drawLED[i][0] = 66;
-    if( drawLED[i][1] == 65 ) drawLED[i][1] = 66;
-    if( drawLED[i][2] == 65 ) drawLED[i][2] = 66;
-          
-  }
-
-}
-
-
-
-void drawLEDs() {
-  for( int i = 0; i < NUMLEDS; i++ ) {
-          
     fill( 
-      drawLED[i][0],
-      drawLED[i][1],
-      drawLED[i][2]
+      int( LED[i][0] * totalPulse * generalBrightness ) ,
+      int( LED[i][1] * totalPulse * generalBrightness ), 
+      int( LED[i][2] * totalPulse * generalBrightness )
     );
     
     noStroke();
