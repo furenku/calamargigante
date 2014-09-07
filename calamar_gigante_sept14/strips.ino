@@ -1,3 +1,8 @@
+
+
+
+void setPulseType( byte pT ) { pulseType = pT; }
+
 void setupStrip() {
 
   strip.begin();
@@ -7,8 +12,7 @@ void setupStrip() {
 
 }
 
-
-void showLeds( byte pulseType ) {
+void showLeds() {
   switch( pulseType ) {
     case 0:
       for (uint16_t i = 0; i < NUMLEDS; i++ ) {
@@ -165,4 +169,5 @@ void setupRangos() {
   b_rangoPct[12] = 87;
 
 }
+
 

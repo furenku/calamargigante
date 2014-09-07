@@ -12,7 +12,7 @@ byte serialCounter = 0;
 void setupSerial() {
 	
 	port = new Serial(this, Serial.list()[0], 115200);
-	
+
 	delay(2000) ;
 
 }
@@ -36,7 +36,7 @@ if(serialCounter == 0) {
     //byte[] tmpArr = new byte[30];
 
 
-    for ( int i = 0; i < NUMLEDS; i++) {
+    for ( int i = 0; i < 100; i++) {
 
     	array[ (i*3) + 0 ] = byte( drawLED[i][0] );
     	array[ ( i*3 ) + 1 ] = byte( drawLED[i][1] );

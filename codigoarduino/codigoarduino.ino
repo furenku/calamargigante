@@ -16,6 +16,8 @@ int b_rangoPct[NUMSTRIPS];
 
 
 uint32_t leds[NUMLEDS+1];
+uint32_t tmpleds[NUMLEDS+1];
+
 uint32_t rgb;
 
 
@@ -50,7 +52,7 @@ long k, temp_value;
 
 // state logic:
 #define NUMCUES 7
-int cue = 0;
+int cue = 6;
 int digits[3];
 int incomingByte = 0;
 
@@ -65,11 +67,18 @@ int clock = 0;
 bool pulsating = true;
 int r, g, b;
 bool fading = false;
+boolean inStatic = false;
 
 float pulseVal=1;
-byte bpulseVal, pulseSpeed,pulseMin,pulseMax,pulseAccMin, pulseAccMax, pulseAcc;
+byte bpulseVal, pulseMod,pulseSpeed,pulseMin,pulseMax,pulseAccMin, pulseAccMax, pulseAcc, pulseType;
 
 
+
+// colores
+
+float brightness = 1;
+uint32_t White = strip.Color(255,255,255);
+uint32_t Black = strip.Color(0,0,0);
 
 
 
@@ -84,9 +93,19 @@ void setup() {
 void loop() {
   readSerial();
   fwd();
-  showLeds();
-  showRGB();
+  seq();
+  
+  showAll();
 }
+
+
+void showAll () {
+  if( ! inStatic ) {
+    showLeds();
+    showRGB(pulseType);
+  }
+}
+
 
 void fwd() {
   fwdClock();
