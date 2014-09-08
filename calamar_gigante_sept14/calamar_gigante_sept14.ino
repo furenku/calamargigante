@@ -65,6 +65,8 @@ float hue=0.0, saturation=1, value=1;
 
 
 uint32_t leds[NUMLEDS];
+uint32_t tmpLeds[NUMLEDS];
+boolean updated[NUMLEDS];
 
 
 
@@ -194,14 +196,16 @@ void loop() {
 //  setLeds( negro );
     
   fwd();
-
+/*
   for(int i=stripStart[2]; i< stripEnd[3]; i++) {
       setLed( i, aquamarina );
       Serial.println(i);
   }
+  */
   //white();
   //danceAround( strip.Color(255,255,255) ) ;
+seqUpdate();
+
 showLeds();
 
-  
 }

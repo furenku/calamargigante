@@ -50,11 +50,11 @@ void fwdPulse(){
   
         bpulseVal[i] += pulseSpeed[i];
                         
-                        Serial.print("bpulseVal ");
+                        /*Serial.print("bpulseVal ");
                         Serial.print(i);
                         Serial.print(": ");
                         Serial.println(bpulseVal[i]);
-
+*/
       if( pulseAcc[i] != 0 ) {
   
         if( bpulseVal[i] < pulseMin[i] || bpulseVal[i] > pulseMax[i] ) {

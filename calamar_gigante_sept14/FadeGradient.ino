@@ -86,5 +86,40 @@ void fwdFade() {
 }
 
 
+void setGradient( int startLED, int endLED, byte startR, byte startG, byte startB, byte endR, byte endG, byte endB, boolean wait=false) {
+  
+  int steps = endLED - startLED;
+  
+  int deltaR = int(startR) - int(endR);
+  int deltaG = int(startG) - int(endG);
+  int deltaB = int(startB) - int(endB);
+  float stepR = (deltaR/(float)steps);
+  float stepG = (deltaG/(float)steps);
+  float stepB = (deltaB/(float)steps);
+
+  for(int i = 0; i<endLED-startLED; i++) {
+    int index = startLED+i;
+    if(!wait) {
+      setLed(index, strip.Color(
+        startR - (i*stepR), 
+        startG - (i*stepG),
+        startB - (i*stepB)
+      ));
+    }  else {
+      setTmpLed(index, strip.Color(
+        startR - (i*stepR), 
+        startG - (i*stepG),
+        startB - (i*stepB)
+      ));
+    }
+    
+  }
+
+}
+
+
+
+void addGradientFade( int startLED, int endLED, byte mod, byte amount, byte startR, byte startG, byte startB, byte endR, byte endG, byte endB ) {
+}
 
 
