@@ -1,7 +1,7 @@
 
 
 
-void setPulseType( byte pT ) { pulseType = pT; }
+//void setPulseType( byte pT ) { pulseType = pT; }
 
 void setupStrip() {
 
@@ -13,48 +13,28 @@ void setupStrip() {
 }
 
 void showLeds() {
-  switch( pulseType ) {
-    case 0:
-      for (uint16_t i = 0; i < NUMLEDS; i++ ) {
-        byte lr = min( getR( leds[i] ) - bpulseVal/255 , 255 );
-        lr = max( lr, 0 );
-        byte lg = min( getG( leds[i] ) - bpulseVal/255 , 255 );
-        lg = max( lg, 0 );
-        byte lb = min( getB( leds[i] ) - bpulseVal/255 , 255 );
-        lb = max( lb, 0 );
-        
-        strip.setPixelColor(i, //leds[i] );
-        strip.Color(
-          lr, lg, lb 
-        ));
-
-  }
-    break;
-
-    case 1:
-      for (uint16_t i = 0; i < NUMLEDS; i++ ) {
-        strip.setPixelColor(i, //leds[i] );
-          strip.Color( 
-            getR(leds[i])/bpulseVal,
-            getG(leds[i])/bpulseVal,
-            getB(leds[i])/bpulseVal          
-          ));
-      }
-    break;
-
-  case 2:
-      for (uint16_t i = 0; i < NUMLEDS; i++ ) {
-        strip.setPixelColor(i, //leds[i] );
-        strip.Color( 
-          getR(leds[i])+bpulseVal,
-          getG(leds[i])+bpulseVal,
-          getB(leds[i])+bpulseVal          
-        ));
-      }
-      break;
-}
-
+  float p = 1;
   
+  for (int i = 0; i < NUMLEDS; i++ ) {
+    for (int j = 0; j < NUMPULSES; j++ ) {  
+      if(pulseSet[j] ) {
+        if(  i >= pulseRangeStart[j] && i <= pulseRangeEnd[j] ) {
+          p = bpulseVal[j] / (float)255;
+          break;
+        }
+        else {
+          p = 1;
+        }
+      }
+    }  
+  
+    strip.setPixelColor(i, //leds[i] );
+    strip.Color( 
+      getR(leds[i])*p,
+      getG(leds[i])*p,
+      getB(leds[i])*p
+      ));
+  }
   strip.show();
 }
 
@@ -89,11 +69,11 @@ void setupStrips() {
   stripStart[1] = 68;
   stripEnd[1]   = 134;
      
-  stripStart[2] = 135;
-  stripEnd[2]   = 137;     
+  stripStart[2] = 136;
+  stripEnd[2]   = 138;     
 
-  stripStart[3] = 138;
-  stripEnd[3]   = 140;     
+  stripStart[3] = 139;
+  stripEnd[3]   = 141;     
 
   stripStart[4] = 141;
   stripEnd[4]   = 164;     

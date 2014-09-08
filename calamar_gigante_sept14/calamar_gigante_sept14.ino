@@ -47,21 +47,13 @@ int r, g, b;
 bool fading = false;
 boolean inStatic = false;
 
-float pulseVal=1;
-byte bpulseVal, pulseMod,pulseSpeed,pulseMin,pulseMax,pulseAccMin, pulseAccMax, pulseAcc, pulseType;
+#define NUMPULSES 5
 
-
-
-// colores
-
-float brightness = 1;
-
-
-
-
-
-
-
+float pulseVal[NUMPULSES];
+byte bpulseVal[NUMPULSES], pulseMod[NUMPULSES], pulseMin[NUMPULSES], pulseMax[NUMPULSES], pulseAccMin[NUMPULSES], pulseAccMax[NUMPULSES], pulseType[NUMPULSES];
+int pulseAcc[NUMPULSES], pulseSpeed[NUMPULSES];
+int pulseRangeStart[NUMPULSES], pulseRangeEnd[NUMPULSES];
+boolean pulseSet[NUMPULSES];
 
 
 //long deltas[3] = { 5, 6, 7 };
@@ -109,12 +101,30 @@ int b_rangoPct[NUMSTRIPS];
 
 
 
+// colores
+
+float brightness = 1;
+
+
+uint32_t negro = strip.Color( 0,0,0);
+uint32_t blanco = strip.Color( 90,90,90);
+uint32_t fiuscha = strip.Color(255,0,255);
+uint32_t aquamarina = strip.Color(0,255,255);  
+uint32_t rosado = strip.Color(0,255,128);  
+uint32_t azulrey = strip.Color(0,0,204);
+uint32_t rojo = strip.Color(255,0,0);
+uint32_t violeta = strip.Color(115,0,230);
+uint32_t azulcielo = strip.Color(0,128,255);
+
+
+
+
 
 void setup() {
   strip.begin();
   strip.show(); 
   
- // Serial.begin(9600);
+  Serial.begin(9600);
   
   //setupShiftRegisters();
   pinMode(4, OUTPUT);
@@ -159,6 +169,7 @@ void setup() {
   
   
   //count();
+  setupStrips();
   test();
 }
 
@@ -170,16 +181,27 @@ int tstcounter=0;
 
 
 
-
+int cntt=0;
 void loop() {
-  
- 
+  if(trigger( 5 )){
+ cntt++;
+ cntt%=255;
+  }
   //readSerial();
-  fwd();
   //seq();
-  staticAround(90, 30, 80);
-  staticAround(150, 30, 80);
-  staticAround(200, 30, 80);
-  showLeds();
+//drawStatic( cntt);
+//  white();
+//  setLeds( negro );
+    
+  fwd();
+
+  for(int i=stripStart[2]; i< stripEnd[3]; i++) {
+      setLed( i, aquamarina );
+      Serial.println(i);
+  }
+  //white();
+  //danceAround( strip.Color(255,255,255) ) ;
+showLeds();
+
   
 }

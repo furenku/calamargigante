@@ -5,19 +5,20 @@ int danceStart, danceEnd,fwdSpeed;
 int currentLed=0;
 
 void setDance( int startRange, int endRange, int dspeed ) {
-danceStart = startRange;
-danceEnd = endRange;
-fwdSpeed = dspeed;
+  danceStart = startRange;
+  danceEnd = endRange;
+  fwdSpeed = dspeed;
 }
 
-void danceAround() {
+void danceAround( uint32_t c) {
   black();
-  showLeds();
-  if(  currentLed < danceStart ) currentLed = danceStart;// = min(currentLed,startRange);
   currentLed+=fwdSpeed;
-  fwdSpeed *= pong( fwdSpeed, danceStart, danceEnd );
+  fwdSpeed *= pong( currentLed, danceStart, danceEnd );
+  currentLed = min( max(  currentLed, danceStart ), danceEnd);
   
-  dotFade( currentLed, 255,255,255 );
+  dotFade( currentLed, getR(c),getG(c),getB(c) );
+  dotFade( min( max(  currentLed + ((danceEnd-danceStart)/2), danceStart ), danceEnd), getR(c),getG(c),getB(c) );
+  dotFade( min( max(  currentLed - ((danceEnd-danceStart)/3), danceStart ), danceEnd), getR(c),getG(c),getB(c) );
 
 
 }
@@ -32,13 +33,12 @@ void danceAround() {
 
 
 void drawStatic( byte probability ) {
-//black();
-  for (uint16_t i = 0; i < NUMLEDS; i++ ) {
+  setLeds(strip.Color(0,0,0) );
+  for (uint16_t i = 0; i < NUMLEDS/4; i++ ) {
     if( random(0,255) < probability ) {
-      setLed(i, strip.Color(255,255,255) );
-    } else {
-      setLed(i, strip.Color(0,0,0) );
-    }
+      for (int j = 0; j < 4; j++ ) { setLed(i + (j*(NUMLEDS/4)), strip.Color(125,125,125) ); }
+    } 
+    
 
   }     
   
@@ -77,18 +77,22 @@ void setSpread( int spr ) {
   spread = spr;
 }
 
+byte spreadSpeed = 1;
+boolean spreadPositive = true;
 
-void fwdSpread( byte spreadSpeed, boolean positive ) {
-  if(positive) {
+void fwdSpread() {
+  if(spreadPositive) {
       spread+=spreadSpeed;
     } else {
       spread-=spreadSpeed;
     }
 }
 
-void spreadColor( int focus, byte spreadSpeed, boolean positive ) {
+void spreadColor( int focus, byte Speed, boolean positive ) {
+  spreadSpeed = Speed;
+  spreadPositive = positive;
   if( trigger(3) ) {
-    fwdSpread( spreadSpeed, positive );
+    fwdSpread();
 
     byte midSpread = byte(focus - spread/float(2));
 

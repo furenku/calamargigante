@@ -1,8 +1,41 @@
+bool cueInit = false;
+
+void changeCue( int c ) {
+   cue = c;
+   cueInit = true;
+}
+
 void seq() {
   switch(cue) {
     case 0:
-      doubleHelix();
+//      doubleHelix();
+      if(cueInit) {
+      
+      }
+      
+      
+      setLeds( strip.Color(255,255,255) );
+      
+      for(int i = 110; i<140; i++){
+          setLed( i, strip.Color(86,0,0) );
+      }
+      
+      for(int i = 20; i<30; i++){
+          setLed( i, strip.Color(86,0,0) );
+      }
+      
+      for(int i = 40; i<60; i++){
+          setLed( i, strip.Color(86,0,0) );
+      }
+      for(int i = 300; i<340; i++){
+          setLed( i, strip.Color(255,0,0) );
+      }
+      for(int i = 136; i<141; i++){
+          setLed( i, strip.Color(0,255,255) );
+      }
       break;
+      
+      
     case 1:
       setLeds( white() );
       break;
