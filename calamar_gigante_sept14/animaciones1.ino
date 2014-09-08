@@ -18,7 +18,7 @@ void danceAround( uint32_t c) {
   
   dotFade( currentLed, getR(c),getG(c),getB(c) );
   dotFade( min( max(  currentLed + ((danceEnd-danceStart)/2), danceStart ), danceEnd), getR(c),getG(c),getB(c) );
-  dotFade( min( max(  currentLed - ((danceEnd-danceStart)/3), danceStart ), danceEnd), getR(c),getG(c),getB(c) );
+  dotFade( min( max(  danceEnd - currentLed, danceStart ), danceEnd), getR(c),getG(c),getB(c) );
 
 
 }

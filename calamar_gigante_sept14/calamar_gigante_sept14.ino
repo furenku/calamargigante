@@ -4,6 +4,9 @@
 #define NUMLEDS 400
 #define NUMSTRIPS 13
 
+#define NUMFADES 13
+#define NUMPULSES 13
+
 #define NUMCUES 7
 
 // HSV fade/bounce for Arduino - scruss.com - 2010/09/12
@@ -47,7 +50,6 @@ int r, g, b;
 bool fading = false;
 boolean inStatic = false;
 
-#define NUMPULSES 5
 
 float pulseVal[NUMPULSES];
 byte bpulseVal[NUMPULSES], pulseMod[NUMPULSES], pulseMin[NUMPULSES], pulseMax[NUMPULSES], pulseAccMin[NUMPULSES], pulseAccMax[NUMPULSES], pulseType[NUMPULSES];
@@ -109,7 +111,7 @@ float brightness = 1;
 
 
 uint32_t negro = strip.Color( 0,0,0);
-uint32_t blanco = strip.Color( 90,90,90);
+uint32_t blanco = strip.Color( 50,50,50);
 uint32_t fiuscha = strip.Color(255,0,255);
 uint32_t aquamarina = strip.Color(0,255,255);  
 uint32_t rosado = strip.Color(0,255,128);  
@@ -126,14 +128,11 @@ void setup() {
   strip.begin();
   strip.show(); 
   
-  Serial.begin(9600);
   
   //setupShiftRegisters();
   pinMode(4, OUTPUT);
 
-  Serial.println( getR( strip.Color(255,0,0) ) ); 
-  Serial.println( getG( strip.Color(0,255,0) ) ); 
-  Serial.println( getB( strip.Color(0,0,255) ) ); 
+  setupSerial();
   /*
   for(int i=0; i< 40; i++ ) {
    int newval = random(NUMLEDS);
@@ -189,7 +188,7 @@ void loop() {
  cntt++;
  cntt%=255;
   }
-  //readSerial();
+  readSerial();
   //seq();
 //drawStatic( cntt);
 //  white();
@@ -204,8 +203,10 @@ void loop() {
   */
   //white();
   //danceAround( strip.Color(255,255,255) ) ;
-seqUpdate();
-
+//seqUpdate();
+seq();
 showLeds();
+        setRGB(aquamarina);
 
+//showRGB();
 }

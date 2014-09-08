@@ -7,7 +7,6 @@ void fwd() {
 
 
 
-#define NUMFADES 3
 
 int fadeStart[NUMFADES], fadeEnd[NUMFADES];
 byte fadeMod[NUMFADES], fadeAmount[NUMFADES];
@@ -31,19 +30,34 @@ void addFade( int startLED, int endLED, byte mod, byte amount, byte r, byte g, b
   fadeB[numFades] = b; 
   numFades++;
   nextFade++;
-  nextFade %= 3;
-  if(numFades>3) numFades = 3;
+  nextFade %= NUMFADES;
+  if(numFades>NUMFADES) numFades = NUMFADES;
+}
+
+
+void addFade( int startLED, int endLED, byte mod, byte amount, uint32_t c ) {
+  fadeStart[numFades] = startLED;
+  fadeEnd[numFades] = endLED;
+  fadeMod[numFades] = mod;
+  fadeAmount[numFades] = amount;
+  fadeR[numFades] = getR(c);
+  fadeG[numFades] = getG(c);
+  fadeB[numFades] = getB(c);
+  numFades++;
+  nextFade++;
+  nextFade %= NUMFADES;
+  if(numFades>NUMFADES) numFades = NUMFADES;
 }
 
 void fwdFade() {
+  int bb = 0;
   for(int i = 0; i < numFades; i++) {
       if( trigger( fadeMod[i] ) ) {
-
        for(int j = fadeStart[i]; j <= fadeEnd[i]; j++ ) {
          byte r,g,b;
          byte currentR, currentG, currentB;
          
-         if( j < NUMLEDS ) {
+        if( j < NUMLEDS ) {
           r = currentR = getR( leds[j] );
           g = currentG = getG( leds[j] );
           b = currentB = getB( leds[j] );
@@ -78,11 +92,15 @@ void fwdFade() {
         if( j == NUMLEDS ) {
           setRGB(strip.Color( r, g, b ));
         }
+       bb = r;
         setLed(j, strip.Color( r, g, b ) );
       } 
     }
+    
+
 
   }    
+  
 }
 
 

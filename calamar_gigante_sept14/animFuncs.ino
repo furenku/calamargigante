@@ -15,7 +15,7 @@ byte updateMod[NUMUPDATES];
 int updateSteps[NUMUPDATES];
 
 int numUpdates=0;
-void resetUpdates() {
+void clearUpdates() {
   numUpdates=0;
 }
 
@@ -36,6 +36,7 @@ void seqUpdate() {
       if( updateSteps[i] <= updateEnd[i]-updateStart[i] ){
         int index =  updateStart[i] + updateSteps[i] ;
         leds[ index ] = tmpLeds[ index ];
+        updated[ index ] = true;
         updateSteps[i]++;
       }
     }

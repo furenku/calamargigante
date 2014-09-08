@@ -67,7 +67,7 @@ void setupStrips() {
   stripEnd[0]   = 67;
 
   stripStart[1] = 68;
-  stripEnd[1]   = 134;
+  stripEnd[1]   = 135;
      
   stripStart[2] = 136;
   stripEnd[2]   = 138;     
@@ -75,7 +75,7 @@ void setupStrips() {
   stripStart[3] = 139;
   stripEnd[3]   = 141;     
 
-  stripStart[4] = 141;
+  stripStart[4] = 142;
   stripEnd[4]   = 164;     
 
   stripStart[5] = 165;

@@ -36,6 +36,14 @@ void setLeds( uint32_t c ) {
   }    
 }
 
+
+void setLeds( int startLED, int endLED, uint32_t c ) {
+  for(int i = startLED; i < endLED; i++) {
+    setLed(i, c);
+  }    
+}
+
+
 void setTmpLed( int i, uint32_t c ) {
   tmpLeds[i] = c;  
   updated[i] = false;
@@ -54,6 +62,10 @@ void setLeds( int c ) {
 
 
 
+void setOjo( uint32_t c  ) {
+  setLeds(stripStart[2],stripEnd[3],c);
+}
+
 
 /**** RGB ****/
 
@@ -63,21 +75,13 @@ void setRGB( uint32_t c ) {
 }
 
 
-void showRGB( byte pulseType ) {
-  switch( pulseType ) {
-    case 0:
-      analogWrite(RED, max( min( getR( rgb ) - bpulseVal[0] , 255 ), 0 ) );
-      analogWrite(GREEN, max( min( getG( rgb ) - bpulseVal[0] , 255 ), 0 ) );
-      analogWrite(BLUE, max( min( getB( rgb ) - bpulseVal[0] , 255 ), 0 ) );
-    break;
+void showRGB() {
+if(trigger(5)) {
+      analogWrite(RED, getR( rgb ) );
+      analogWrite(GREEN, getG( rgb ) );
+      analogWrite(BLUE, getB( rgb ) );
+}
 
-    case 1:
-      analogWrite(RED, ( getR( rgb ) / bpulseVal[0] ) % 255);
-      analogWrite(GREEN, ( getG( rgb ) / bpulseVal[0] ) % 255);
-      analogWrite(BLUE, ( getB( rgb ) / bpulseVal[0]) % 255);
-    break;
-
-  }
 }
 
 

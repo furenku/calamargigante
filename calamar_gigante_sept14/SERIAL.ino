@@ -31,6 +31,7 @@ void readSerial() {
                     digits[2];
                     
                   cue = result;
+                  changeCue( cue );
                   Serial.print( "CUE: " );
                   Serial.println( cue );  
                   //changeCue( cue );

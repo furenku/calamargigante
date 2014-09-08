@@ -1,27 +1,28 @@
 
-void clearPulse(int i) {
-  //setPulse(255,255,1,0,0,0,0,0);
+
+
+byte numPulses = 0;
+
+
+void clearPulses() {
+  numPulses = 0;
 }
 
+void addPulse(byte pmin=100, byte pmax=150, byte pmod=1,  byte pspeed=2, byte paccmin=1, byte paccmax=1, int pacc=0, byte ptype=0, int rangeMin=0, int rangeMax=400) {
 
-byte currentPulse = 0;
+  pulseSpeed[numPulses] = pspeed;
+  pulseMin[numPulses] = pmin;
+  pulseMax[numPulses] = pmax;
+  pulseAcc[numPulses] = pacc;
+  pulseMod[numPulses] = pmod;
+  pulseAccMin[numPulses] = paccmin;
+  pulseAccMax[numPulses] = paccmax;
+  pulseType[numPulses] = ptype;
+  pulseRangeStart[numPulses] = rangeMin;
+  pulseRangeEnd[numPulses] = rangeMax;  
+  pulseSet[numPulses] = true;
 
-void addPulse(byte pmin, byte pmax, byte pmod,  byte pspeed, byte paccmin, byte paccmax, int pacc, byte ptype, int rangeMin, int rangeMax) {
-
-  pulseSpeed[currentPulse] = pspeed;
-  pulseMin[currentPulse] = pmin;
-  pulseMax[currentPulse] = pmax;
-  pulseAcc[currentPulse] = pacc;
-  pulseMod[currentPulse] = pmod;
-  pulseAccMin[currentPulse] = paccmin;
-  pulseAccMax[currentPulse] = paccmax;
-  pulseType[currentPulse] = ptype;
-  pulseRangeStart[currentPulse] = rangeMin;
-  pulseRangeEnd[currentPulse] = rangeMax;  
-  pulseSet[currentPulse] = true;
-
-  currentPulse++; currentPulse %= NUMPULSES;
-  
+  numPulses++; numPulses %= NUMPULSES;
 }
 
 
@@ -30,7 +31,7 @@ void addPulse(byte pmin, byte pmax, byte pmod,  byte pspeed, byte paccmin, byte 
 byte tmpPulse=0, tmpPulse2 = 0;
 bool didPong = false;
 void fwdPulse(){
-  for( int i = 0; i < NUMPULSES; i++) {
+  for( int i = 0; i < numPulses; i++) {
     if( pulseSet[i] )
     if( trigger (pulseMod[i]) ) {
   
