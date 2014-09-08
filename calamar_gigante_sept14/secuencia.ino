@@ -100,9 +100,9 @@ este se calma
 
 32. el calamar ilustra la enfermedad del niño, inflamacion que crece, pudredumbre verde en el pulmon
 
-33. el niño toca la caja, y de ahi empieza a irradiar la navidad. la navidad va intensificandose hasta ser incontenible durante 20 segundos
+34. el niño toca la caja, y de ahi empieza a irradiar la navidad. la navidad va intensificandose hasta ser incontenible durante 20 segundos
 
-34.  "he pensado" - utilizar la misma animacion de navidad para regresar al rosa inicialesta debil ,  paerecido  al inicio
+35.  "he pensado" - utilizar la misma animacion de navidad para regresar al rosa inicialesta debil ,  paerecido  al inicio
 
 35. susan empieza a hacer el sonido de las olas con la TV (5 segundos de periodo) (pulso de intensidad y "oleaje en la animacion
 

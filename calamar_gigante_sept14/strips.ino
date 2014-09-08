@@ -1,6 +1,5 @@
 
 
-
 //void setPulseType( byte pT ) { pulseType = pT; }
 
 void setupStrip() {
