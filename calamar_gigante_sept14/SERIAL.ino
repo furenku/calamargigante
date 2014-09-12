@@ -17,7 +17,7 @@ void readSerial() {
                 // say what you got:
                 int digit = incomingByte-48;
                 
-                if( digit >= 0 && digit < 9 ) {
+                if( digit >= 0 && digit <= 9 ) {
                   digits[0] = digits[1];
                   digits[1] = digits[2];
                   digits[2] = digit;                  

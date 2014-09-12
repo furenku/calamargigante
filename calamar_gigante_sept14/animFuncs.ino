@@ -13,6 +13,7 @@ int updateStart[NUMUPDATES];
 int updateEnd[NUMUPDATES];
 byte updateMod[NUMUPDATES];
 int updateSteps[NUMUPDATES];
+int updateStep[NUMUPDATES];
 
 int numUpdates=0;
 void clearUpdates() {
@@ -26,6 +27,7 @@ void addSeqUpdate(int startLED, int endLED, byte mod) {
   updateEnd[numUpdates]=endLED;
   updateMod[numUpdates]=mod;
   updateSteps[numUpdates]=0;
+
   numUpdates++;
   numUpdates = min( numUpdates, NUMUPDATES );
 }
@@ -76,7 +78,8 @@ void dotFade( int i, byte r, byte g, byte b ) {
 
 
 
-
+int pos=0;
+int currLed=0;
 void doubleHelix() {
 	if(clock%1 == 0 ) {
 		pos++;

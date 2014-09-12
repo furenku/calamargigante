@@ -1,4 +1,4 @@
- void calma() {
+void calma() {
 if(cueInit &&  cueMs<10) {
         clearSeq();
         setLeds(aquamarina);   

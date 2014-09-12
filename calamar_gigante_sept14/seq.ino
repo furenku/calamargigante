@@ -1,11 +1,18 @@
   int mano1Start = 300;
-  int mano2End = 350;
+  int mano2End = 360;
 
 bool cueInit = false;
 long cueMs,cueMsStart;
 
+      int LEDoffset;
 
 
+
+void fwd() {
+  fwdClock();
+  fwdFade();
+  fwdPulse();
+}
 
 
 void changeCue( int c ) {
@@ -22,7 +29,7 @@ void resetCue() {
   cueMsStart=millis();
   cueInit = true;
 }
-uint32_t rojosuave = strip.Color(86,0,0);
+uint32_t rojosuave = strip.Color(36,0,0);
 uint32_t blancoclaro = strip.Color(55,58,59);
 uint32_t amarillofeo = strip.Color(150,230,50);
 
@@ -35,38 +42,33 @@ void clearSeq() {
 void seq() {
   cueMs = millis() - cueMsStart;
   switch(cue) {
+    
     case 0:
-
-      if(cueInit && cueMs<1000) {
-        setRGB(aquamarina);
-
-        initCue();
-        setLeds( azulrey );
-      }
-      
-      if(cueMs>1000 && cueMs<2000 && !cueInit) {
-        setLeds( blanco );
-        cueInit=true;
-      }
-      
-      if(cueMs>2000 && cueInit ) {
+      if( cueInit && cueMs<10) {
+        clearSeq();
+        setLeds(0,0,0);   
+        //
         cueInit = false;
-              clearFades();
-
-        addFade(0,100,1,10,0,0,0);
-        addFade(101,200,1,10,0,0,0);
-      }
-      if(cueMs>2300 && !cueInit ) {
-        cueInit = true;
-        addFade(201,300,1,10,0,0,0);
-        addFade(300,380,1,10,0,0,0);       
+      } else if ( cueMs>20 && !cueInit ) {
+        addFade(200,250,1,5,125,0,200,30);
         
+        addFade(200,250,1,5,125,0,200,30);
+        addFade(300,350,3,5,0,125,200,30);
+        addFade(350,380,5,5,azulrey);
+        cueInit = true;
       }
-      if(cueMs>2600 && cueInit ) {
-         cueInit = false;
-      }     
+           
       break;
       
+    
+    case 1:
+if( cueInit && cueMs<10) {
+        clearSeq();
+        setLeds(negro);   
+           cueInit = false;
+      }
+           
+      break;
       
     case 2:
       
@@ -74,24 +76,29 @@ void seq() {
 
         clearSeq();
 
-        setLeds(blancoclaro);  
+        addFade( stripStart[2],stripEnd[3], 1, 10, 0, 155,155);
+
+        addFade(stripStart[0],stripEnd[1],3,1,80,80,80);  
+        addFade(stripStart[4],stripEnd[11],3,1,80,80,80);  
         cueInit = false;      
       }
       
       if( cueMs>10 && cueMs<200 && !cueInit ) {
         cueInit = true;
-        setLeds(20,30,rojosuave);
-        setLeds(40,60,rojosuave);
-        setLeds(300,340,rojosuave);
+        
         setLeds(stripStart[2],stripEnd[3],aquamarina);
         addPulse(0,100,1,2,1,1,0,0,stripStart[0],stripEnd[2]);
         addPulse(20,stripEnd[11],1,10,1,10,-1,0,stripStart[2],stripEnd[3]);  
-        addFade( stripStart[2],stripEnd[3], 1, 10, 0, 155,155);
       }
       if( cueMs>200 && cueInit ) {
-        cueInit = false;      
+        cueInit = false;     
+       setLeds(20,30,rojosuave);
+        setLeds(40,60,rojosuave);
+       // setLeds(300,340,rojosuave); 
         addPulse(0,255,1,7,1,1,0,0,stripStart[4],stripEnd[6]);
-        addPulse(0,100,1,10,1,1,0,0,stripStart[7],stripEnd[9]);        
+        addPulse(0,100,1,10,1,1,0,0,stripStart[7],stripEnd[9]);  
+        addPulse(0,100,1,5,1,1,0,0,stripStart[10],stripEnd[11]);        
+        
       }
 
 /*
@@ -185,7 +192,7 @@ void seq() {
      if( cueInit && cueMs<10) {
         clearSeq();
 // setLeds(0,stripEnd[3],aquamarina);   
-         addFade(0,stripEnd[11],1,30,0,240,240);   
+         addFade(0,stripEnd[10]+50,1,30,0,240,240);   
            cueInit = false;
      
       }
@@ -246,9 +253,9 @@ void seq() {
         clearSeq();
         // setLeds(0,stripEnd[3],aquamarina);   
            cueInit = false;
-     
+           addFade(0,stripEnd[11],1,20,1,1,1);   
+
       }
-      fadeOut();
       
       
        if( cueMs>200 && !cueInit ) {
@@ -266,6 +273,7 @@ void seq() {
       if( cueInit && cueMs<10) {
         clearSeq();
         addFade(0,stripEnd[1],1,20,130,0,180);
+        addFadeOjo(1,20,130,0,180);
         addFade(stripStart[4],stripEnd[11],1,20,130,0,180);
         addPulse(50,250,1,12,1,1,15,1,stripStart[0],stripEnd[1]);
         addPulse(50,250,1,20,1,1,10,1,stripStart[4],stripEnd[11]);
@@ -277,6 +285,8 @@ void seq() {
       if( cueInit && cueMs<10) {
         clearSeq();
         addFade(0,stripEnd[1],1,20,130,0,180);
+        addFadeOjo(1,20,180,0,130);
+
         addFade(stripStart[4],stripEnd[11],1,20,130,0,180);
         addFade(stripStart[2],stripEnd[3],1,10,0,200,200);
         addPulse(50,250,1,6,1,15,1,-1,stripStart[0],stripEnd[1]);
@@ -291,8 +301,11 @@ void seq() {
         clearSeq();
         cueInit = false;
         addFade(0,stripEnd[1],1,5,0,20,180);
+                
         addFade(stripStart[4],stripEnd[11],1,5,0,20,180);
-        addFade(stripStart[2],stripEnd[3],1,10,0,200,180);
+        addFadeOjo(1,10,0,200,180);
+        addPulse(50,150,1,8,3,15,-1,0,stripStart[2],stripEnd[3]);
+
       }
       break;
 
@@ -354,7 +367,7 @@ case 12:
       break;
 case 13:
       if( cueInit && cueMs<10) {
-        addFade(stripStart[2],stripEnd[3],1,10,180,180,180);
+        addFade(stripStart[2],stripEnd[3],1,30,180,180,180);
            cueInit = false;     
       }
 
@@ -426,7 +439,7 @@ case 19:
 
 
 
-    if(cueMs>10 && cueInit ) {
+    if(cueMs<10 && cueInit ) {
         cueInit=false;
         clearSeq();
         
@@ -480,12 +493,11 @@ case 21:
 
 if( cueInit && cueMs<10) {
         clearSeq();
-        clearSeq();
 
         addFade(stripStart[0],stripEnd[1],1,10,150,230,50);
         addFade(stripStart[4],stripEnd[11],1,10,150,230,50);
         addFade(stripStart[2],stripEnd[3],1,10,255,150,0);
-        addPulse(0,50,2,1,1,15,1,0,stripStart[0],stripEnd[11]);
+        addPulse(0,50,1,5,1,15,1,0,stripStart[0],stripEnd[11]);
 
            cueInit = false;
      
@@ -498,7 +510,7 @@ case 22:
         clearSeq();
         cueInit = false;
         addPulse(30,80,1,2,1,1,0,0,0,350);
-
+        setOjo(blancoclaro);
         addFade(stripStart[4],stripEnd[7],1,2,0,60,130);
         addFade(stripStart[8],stripEnd[11],1,3,0,200,180);
       }
@@ -572,9 +584,10 @@ if( cueInit && cueMs<10) {
         cueInit = false;
         clearSeq();
 //        setLeds( azulrey );
-        addPulse(30,150,1,2,1,1,15,1,0,350);
-
-        setGradient(0,380,80,80,80,100,200,50,true);
+        addPulse(30,150,1,2,1,1,15,1,0,300);
+clearUpdates();
+        setGradient(180,380,80,80,80,100,200,50,true);
+        addSeqUpdate(180,380,1);
       }
       if(cueMs>10) {
         seqUpdate();       
@@ -585,7 +598,7 @@ case 28:
       if( cueInit && cueMs<10) {
         cueInit = false;
         clearSeq();
-        setLeds(rojo);
+        addFade(stripStart[0], stripEnd[12],1,5,255,0,0);
       }
 break;
 
@@ -598,7 +611,7 @@ case 29:
       if( cueInit && cueMs<10) {
         cueInit = false;
         clearSeq();
-        setLeds(azulrey);
+        addFade(0,stripEnd[11],1,10,0,0,180);
       }
 break;
 
@@ -610,7 +623,7 @@ case 30:
       if( cueInit && cueMs<10) {
         cueInit = false;
         clearSeq();
-        setLeds(rosado);
+        setLeds( strip.Color(150,0,80));
       }
 break;
 
@@ -634,7 +647,19 @@ case 32:
       if( cueInit && cueMs<10) {
         cueInit = false;
         clearSeq();
-        setLeds(azulrey);
+      setGradient(stripStart[0],stripEnd[12],50,0,50,0,150,210);
+      /*
+      setGradient(stripStart[3],stripEnd[6],30,60,200,0,150,210);
+      setGradient(stripStart[7],stripEnd[9],30,0,200,0,150,210);
+      setGradient(stripStart[10],stripEnd[12],0,30,200,0,150,210);
+      */
+/*      addSeqUpdate(stripStart[0], stripEnd[1], 1);
+      addSeqUpdate(stripStart[3], stripEnd[6], 1);
+      addSeqUpdate(stripStart[7], stripEnd[9], 1);
+      addSeqUpdate(stripStart[10], stripEnd[9], 1);
+*/      }
+      if( cueMs>10) {
+        seqUpdate();
       }
 break;
 
@@ -644,9 +669,10 @@ case 33:
       if( cueInit && cueMs<10) {
         cueInit = false;
         clearSeq();
-        setLeds(amarillofeo);
+        addFade(0,stripEnd[11],1,10,100,250,50);
+        setDance(0,stripEnd[11],4);
       }
-      
+      danceAround(blanco);
       
       
       
@@ -654,7 +680,8 @@ case 34:
       if( cueInit && cueMs<10) {
         cueInit = false;
         clearSeq();
-        setLeds(rojo);
+                addFade(0,stripEnd[11],1,10,60,0,0);
+                
       }
 break;
 
@@ -662,9 +689,25 @@ break;
 // navidad
 case 35:
       if( cueInit && cueMs<10) {
+              LEDoffset=0;
+
         cueInit = false;
         clearSeq();
-        setLeds(strip.Color(0,200,0));
+        
+      }
+      if(cueMs>10) {
+        for(int i = 0; i< NUMLEDS; i++) {
+          if( (i+LEDoffset)%3 == 0 )
+            setLed(i,strip.Color(0,255,0));
+          if( (i+LEDoffset)%3 == 1 )
+            setLed(i,rojo);
+          if( (i+LEDoffset)%3 == 2 )
+            setLed(i,blancoclaro);
+        }
+        if(trigger(4)){
+          LEDoffset++;
+          LEDoffset%=20;
+        }
       }
 break;
 
@@ -673,8 +716,8 @@ case 36:
       if( cueInit && cueMs<10) {
         cueInit = false;
         clearSeq();
-        setLeds(blancoclaro);
-        addPulse(0,200,2,2,1,1,0,0,0,stripEnd[11]);
+        addFade(0,stripEnd[11],1,10,80,80,80);
+        addPulse(0,200,2,2,1,1,0,0,0,stripEnd[12]);
       }
 break;
 
@@ -683,7 +726,7 @@ case 37:
       if( cueInit && cueMs<10) {
         cueInit = false;
         addFade(0,stripEnd[11],1,10,0,0,100);
-        addPulse(50,100,2,3,1,1,0,0,0,stripEnd[11]);
+        addPulse(50,100,2,3,1,1,0,0,0,stripEnd[12]);
 
       }
 break;
@@ -694,8 +737,9 @@ case 38:
         cueInit = false;
         clearSeq();
         setLeds(blancoclaro);
-        addFade(0,stripEnd[11],1,10,0,0,100);
-        addPulse(00,250,2,10,1,1,0,0,0,stripEnd[11]);
+        addFade(0,stripEnd[6],1,10,0,0,100);
+        addFade(stripStart[7],stripEnd[11],1,10,30,150,100);        
+        addPulse(0,stripEnd[11],2,10,1,1,0,0,0,stripEnd[11]);
 
       }
 break;
@@ -717,12 +761,38 @@ case 40:
         clearSeq();
         // setLeds(0,stripEnd[3],aquamarina);   
            cueInit = false;
-     
+           addFade(0,380,1,10,3,3,3);
+
       }
-      fadeOut();
       
       
 break;
+
+
+case 41:
+if( cueInit && cueMs<10) {
+        clearSeq();
+        setLeds(negro);   
+           cueInit = false;
+      }
+           
+      break;
+      
+      
+      
+case 42:
+if( cueInit && cueMs<10) {
+        clearSeq();
+        setLeds(blanco);   
+        addFade(0,stripEnd[12],1,1,240,0,240);
+           cueInit = false;
+      }
+           
+      break;
+    
+    
+    
+    
 case 111:
       rainbow(1);
       break;

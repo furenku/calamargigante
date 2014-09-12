@@ -2,6 +2,45 @@
 
 
 
+//prueba inicial:
+
+
+
+      if(cueInit && cueMs<1000) {
+        setRGB(aquamarina);
+
+        initCue();
+        setLeds( azulrey );
+      }
+      
+      if(cueMs>1000 && cueMs<2000 && !cueInit) {
+        setLeds( blanco );
+        cueInit=true;
+      }
+      
+      if(cueMs>2000 && cueInit ) {
+        cueInit = false;
+              clearFades();
+
+        addFade(0,100,1,10,0,0,0);
+        addFade(101,200,1,10,0,0,0);
+      }
+      if(cueMs>2300 && !cueInit ) {
+        cueInit = true;
+        addFade(201,300,1,10,0,0,0);
+        addFade(300,380,1,10,0,0,0);       
+        
+      }
+      if(cueMs>2600 && cueInit ) {
+         cueInit = false;
+      }
+      
+      
+      
+      
+      
+      
+
     if(cueMs>10 && cueInit ) {
         cueInit=false;
         clearSeq();

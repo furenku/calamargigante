@@ -47,8 +47,8 @@ este se calma
 
 7. "supuren" - padres ignroarn y el calamar se enchila - se impacienta  y hay un crescendo que dura 1:16
 
-8. termina discurso - calamar desciende de intensidad poco a poco - transicion despacio hacia violeta y ojo  hacia aquamarina 
-
+8. termina discurso - calamar desciende de intensidad poco a poco - transicion despacio hacia blanco y ojo  hacia aquamarina 
+anco
 9. "se estaba suicidando" - el ojo reacciona - calamar se entristece - ojo remi, cerrar y abrirlo variias veces lento
 
 10. "¿Podemos verlo de cerca? " - se activa porque se le estn acercando, cuerpo hacia acuamarina y actividad seductora (ver ej. rainbow(1) )

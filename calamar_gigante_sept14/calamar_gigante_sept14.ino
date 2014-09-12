@@ -7,7 +7,7 @@
 #define NUMFADES 13
 #define NUMPULSES 13
 
-#define NUMCUES 7
+#define NUMCUES 42
 
 // HSV fade/bounce for Arduino - scruss.com - 2010/09/12
 // Note that there's some legacy code left in here which seems to do nothing
@@ -32,7 +32,7 @@
 
 byte generalBrightness = 255;
 
-int cue = 0;
+int cue = 42;
 
 int digits[3];
 int incomingByte = 0;
