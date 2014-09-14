@@ -45,8 +45,8 @@ void test(){
       addSeqUpdate(300, 400, 1);
       */
      // Serial.println("test");
-     addPulse(140,185,1,3, 0,0,0,0,0,1);
-changeCue(0);
+     //addPulse(140,185,1,3, 0,0,0,0,0,1);
+
 }
 
 

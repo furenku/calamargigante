@@ -1,5 +1,7 @@
 #include <Adafruit_NeoPixel.h>
 
+#define STARTCUE 2
+
 #define PIN 8
 #define NUMLEDS 400
 #define NUMSTRIPS 13
@@ -32,7 +34,7 @@
 
 //byte generalBrightness = 255;
 
-int cue = 2;
+int cue = STARTCUE;
 
 int digits[3];
 int incomingByte = 0;
@@ -172,7 +174,8 @@ void setup() {
   //count();
   setupStrips();
   setupBodySeqStrips();
-  test();
+
+  changeCue(STARTCUE);
 }
 
 

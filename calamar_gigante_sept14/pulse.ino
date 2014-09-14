@@ -9,7 +9,7 @@ void clearPulses() {
 }
 
 
-void addPulse(byte pmin=100, byte pmax=150, byte pmod=1,  byte pspeed=2, byte paccmin=1, byte paccmax=1, int pacc=0, byte ptype=0, int rangeMin=0, int rangeMax=400) {
+void addPulse(byte pmin, byte pmax, byte pmod,  byte pspeed, byte paccmin, byte paccmax, int pacc, byte ptype, int rangeMin, int rangeMax) {
 
   pulseSpeed[numPulses] = pspeed;
   pulseMin[numPulses] = pmin;
@@ -22,10 +22,19 @@ void addPulse(byte pmin=100, byte pmax=150, byte pmod=1,  byte pspeed=2, byte pa
   pulseRangeStart[numPulses] = rangeMin;
   pulseRangeEnd[numPulses] = rangeMax;  
   pulseSet[numPulses] = true;
-  bPulseVal[numPulses] = pmin;
+  bpulseVal[numPulses] = pmin;
 
   numPulses++; numPulses %= NUMPULSES;
 }
+
+
+
+void addPulse(int rangeMin, int rangeMax, byte pmin, byte pmax, byte pmod,  byte pspeed, byte paccmin, byte paccmax, int pacc ) {
+
+  addPulse(pmin,pmax,pmod,pspeed,paccmin,paccmax,pacc,0,rangeMin,rangeMax);
+  
+}
+
 
 
 void addPulse(int rangeMin=0, int rangeMax=300, byte pmin=100, byte pmax=150, byte pmod=1,  byte pspeed=2 ) {
@@ -58,10 +67,6 @@ void fwdPulse(){
   
         bpulseVal[i] += pulseSpeed[i];
                         
-                        Serial.print("bpulseVal ");
-                        Serial.print(i);
-                        Serial.print(": ");
-                        Serial.println(bpulseVal[i]);
 
       if( pulseAcc[i] != 0 ) {
   

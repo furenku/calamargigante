@@ -4,14 +4,33 @@
 int danceStart, danceEnd,fwdSpeed;
 int currentLed=0;
 
+float stepR = 0;
+float stepG = 0;
+float stepB = 0;
+  
+
+
 void setDance( int startRange, int endRange, int dspeed ) {
+  setDance( startRange, endRange, dspeed, 255, 255, 255 );  
+}  
+void setDance( int startRange, int endRange, int dspeed, byte r, byte g, byte b ) {
   danceStart = startRange;
   danceEnd = endRange;
   fwdSpeed = dspeed;
+  for( int i = startRange; i < endRange; i++ ) {
+    tmpLeds[i] = leds[i];
+  }
+  
+
+  stepR = ( r - getR(tmpLeds[startRange]) ) / (float) 5;
+  stepG = ( g - getG(tmpLeds[startRange]) ) / (float) 5;
+  stepB = ( b - getB(tmpLeds[startRange]) ) / (float) 5;
+
+  Serial.println(stepR);
 }
 
 void danceAround( uint32_t c) {
-  black();
+  //black();
   currentLed+=fwdSpeed;
   fwdSpeed *= pong( currentLed, danceStart, danceEnd );
   currentLed = min( max(  currentLed, danceStart ), danceEnd);
@@ -22,6 +41,61 @@ void danceAround( uint32_t c) {
 
 
 }
+
+
+
+void dotFade( int i, byte r, byte g, byte b ) {
+
+  setLed( max(0,i-5), tmpLeds[max(0,i-5)]);
+  for( int h = 4; h > 0; h-- ) {
+    uint32_t tmpc = tmpLeds[max(0,i-h)];
+    uint32_t cr = getR(tmpc);
+    uint32_t cg = getG(tmpc);   
+    uint32_t cb = getB(tmpc);    
+    setLed( max(0,i-h), strip.Color( cr + stepR * (4-h), cg + stepG * (4-h), cb - stepB * (4-h) ));
+  }
+  setLed( i, strip.Color( r, g, b ) );
+  
+  for( int h = 1; h < 5; h++ ) {
+    uint32_t tmpc = tmpLeds[min(NUMLEDS-1,i+h)];
+    uint32_t cr = getR(tmpc);
+    uint32_t cg = getG(tmpc);   
+    uint32_t cb = getB(tmpc);   
+    setLed(min(NUMLEDS-1,i+h), strip.Color( r - stepR * h, g + stepG * h, b - stepB * h ));
+  }
+  
+  setLed( min(NUMLEDS-1,i+5), tmpLeds[min(NUMLEDS-1,i+5)]);
+
+  
+/*
+  int prev = max(i-1, 0);
+  int pprev = max(i-2, 0);
+  int ppprev = max(i-3, 0);
+  int pppprev = max(i-4, 0);
+
+  int next = (i+1)%NUMLEDS;
+  int nnext = (i+2)%NUMLEDS;
+  int nnnext = (i+3)%NUMLEDS;
+  int nnnnext = (i+4)%NUMLEDS;
+
+  uint32_t c = strip.Color( r, g, b );
+  uint32_t cc = strip.Color( r/8, g/8, b/8 );
+  uint32_t ccc = strip.Color( r/12, g/12, b/12 );
+  uint32_t cccc = strip.Color( r/14, g/14, b/14 );
+  uint32_t ccccc = strip.Color( r/16, g/16, b/16 );
+  
+  setLed(i, c);
+  setLed(prev, cc);
+  setLed(next, cc);
+  setLed(pprev, ccc);
+  setLed(nnext, ccc);
+  setLed(ppprev, cccc);
+  setLed(nnnext, cccc);
+  setLed(pppprev, ccccc);
+  setLed(nnnnext, ccccc);
+  */
+}
+
 
 
 

@@ -39,8 +39,30 @@ uint32_t amarillofeo = strip.Color(150,230,50);
 void clearSeq() {
   clearPulses();
   clearFades();
+  clearGeneralBrightnessFade();
   clearUpdates();
 }
+
+void c0() {
+  cueInit = false;
+}
+void c1() {
+  cueInit = true;
+}
+
+
+
+
+bool cueStep( long startMs, long endMs, bool check ) {
+  if( cueInit == check && cueMs >= startMs && cueMs < endMs )
+    return true;
+  else
+    return false;
+}  
+
+
+bool checker = true;
+int lastSet = -1;
 
 void seq() {
   cueMs = millis() - cueMsStart;
@@ -54,8 +76,8 @@ void seq() {
           addFade(stripStart[i],stripEnd[i+1],1,5,random(0,50),random(0,105)*2 ,random(0,125)*2);
         }
         addFade( stripStart[2],stripEnd[3], 1, 10, 0, 255,155);
-        //addPulse(1,160,1,3,3,3,0,0,0,stripEnd[1]);
-        //addPulse(1,160,1,3,3,3,0,0,stripStart[3],stripEnd[12]);
+        ////addPulse(1,160,1,3,3,3,0,0,0,stripEnd[1]);
+        ////addPulse(1,160,1,3,3,3,0,0,stripStart[3],stripEnd[12]);
         addPulse(100,160,1,5,3,3,0,0,stripStart[2],stripEnd[3]);
         setGeneralBrightness(0);
         fadeGeneralBrightness(1,5,50);
@@ -63,9 +85,8 @@ void seq() {
         cueInit = false;
       } else if ( cueMs>20 && !cueInit ) {
         
-        cueInit = true;
-      } 
-      if(cueMs>20 && cueInit) {
+        c1();
+      
         
         if(cueCnt%10==0) {
           clearSeq();
@@ -82,7 +103,7 @@ void seq() {
 if( cueInit && cueMs<10) {
         clearSeq();
         /*addFade(0,stripEnd[12],1,5,azulrey);
-        addPulse(1,160,2,3,3,3,0,0,0,stripEnd[12]);
+        //addPulse(1,160,2,3,3,3,0,0,0,stripEnd[12]);
         */
         startBodySeq(15);
         cueInit = false;
@@ -95,6 +116,7 @@ if( cueInit && cueMs<10) {
       case 1:
       if( cueInit && cueMs<10) {
         clearSeq();
+        setGeneralBrightness(1);
         setLeds(negro);
       }
            
@@ -102,231 +124,240 @@ if( cueInit && cueMs<10) {
             
     case 2:
       
-      if(cueInit &&  cueMs<10) {
-
+      if( cueStep(10,30,true) ) {
         clearSeq();
-
-        //addFade( stripStart[2],stripEnd[3], 1, 10, , 155,155);
         setLeds(negro);
 
         addFade(stripStart[0],stripEnd[1],1,1,80,80,80);  
         addFade(stripStart[4],stripEnd[12],1,1,80,80,80);  
        
-         setGeneralBrightness(0);
-        fadeGeneralBrightness(1,1,300);
-        cueInit = false;   
-        addPulse(0,100,1,1,1,1,0,0,stripStart[0],stripEnd[12]);
-        //addPulse(0,100,1,1,1,1,0,0,stripStart[4],stripEnd[5]);
-        /*addPulse(0,100,1,10,1,1,0,0,stripStart[4],stripEnd[7]);
-        addPulse(0,100,1,10,1,1,0,0,stripStart[8],stripEnd[12]);
-        */
+        setGeneralBrightness(0);
+        fadeGeneralBrightness(1,3,100);
+        addPulse(0,30,2,3,1,1,0,0,stripStart[0],stripEnd[12]);
+        c0();         
       }
       
-      if( cueMs>10 && cueMs<200 && !cueInit ) {
-        cueInit = true;
+      if( cueStep(30,200,false) ) {
+
+        c1();
         setLeds(20,30,rojosuave);
-        setLeds(40,60,rojosuave);
-        //setLeds(stripStart[2],stripEnd[3],aquamarina);
-        /*addPulse(0,100,1,2,1,1,0,0,stripStart[4],stripEnd[6]);
-        addPulse(0,100,1,2,1,1,0,0,stripStart[7],stripEnd[9]);
-        addPulse(0,100,1,2,1,1,0,0,stripStart[10],stripEnd[12]);
-        */
-        //addPulse(20,stripEnd[11],1,10,1,10,-1,0,stripStart[2],stripEnd[3]);  
+        setLeds(40,60,rojosuave);        
       }
-
-/*
-      if(cueInit &&  cueMs<100) {
-        clearPulses();
-        clearFades();
-
-        setLeds(blanco);   
-
-
-      }
-      
-      if( cueMs>200 && cueMs<350 && !cueInit ) {
-        cueInit = true;
-        //addPulse(0,100,1,3,1,1,0,0,stripStart[0],stripEnd[1]);
-        //addPulse(20,250,1,5,1,15,-1,0,stripStart[2],stripEnd[3]);  
-        //setLeds(20,30,rojosuave);
-        
-      }
-      if( cueMs>350 && cueMs<400 && cueInit ) {
-        cueInit = false;      
-        //setLeds(20,30,rojosuave);
-      }
-      if( cueMs>400 && !cueInit ) {
-        //setLeds(200,350,rojosuave);
-        cueInit = true;      
-        addPulse(0,255,1,8,1,1,0,0,stripStart[4],stripEnd[6]);
-        addPulse(0,100,1,12,1,1,0,0,stripStart[7],stripEnd[9]);
-        addPulse(0,100,1,7,1,1,0,0,stripStart[10],stripEnd[11]);
-        //setLeds(300,340,rojosuave);
-        //addFade(stripStart[2],stripEnd[3],1,2,0,155,200);
-
-      }
-      
-*/      
-/*
-
-         addFade(110, 140,1,2,86,0,0);     
-        addFade(stripStart[2],stripEnd[3],2,10,0,150,250);        
-*/
-
-
-        /*
-        }        
-        
-        
-        for(int i = 20; i<30; i++){
-            setLed( i, strip.Color(86,0,0) );
-        }        
-        for(int i = 40; i<60; i++){
-            setLed( i, strip.Color(86,0,0) );
-        }
-        for(int i = 300; i<340; i++){
-            setLed( i, strip.Color(255,0,0) );
-        }
-        for(int i = stripStart[2]; i<stripEnd[3]; i++){
-            setLed( i, strip.Color(0,255,255) );
-        }      */
 
 
       break;
-    case 3:
-       
-      if(cueInit && cueMs<10) {
-        //clearSeq();
-        setOjo(rojosuave);   
-           cueInit = false;
-       setDance( 0, 300, 2 );
-      }
-      
-      if( cueMs>10 && !cueInit && cueMs < 200) {
-        cueInit = true;      
-        addFade( stripStart[2], stripStart[3], 1,3,150,30,180 );
+    // mugido tras : "solo es un calalamr gigante"
+    case 3:       
+      if( cueStep(10,500,true) ) {
         clearSeq();
-
-        addPulse(0,100,1,3,1,1,0,0,stripStart[0],stripEnd[1]);
-        addPulse(20,250,1,15,1,15,-1,0,stripStart[2],stripEnd[3]);  
-      }
-      if( cueMs>200 && cueInit ) {
-        cueInit = false;      
-        addPulse(0,255,1,15,1,1,0,0,stripStart[4],stripEnd[6]);
-        addPulse(0,100,1,25,1,1,0,0,stripStart[7],stripEnd[9]);
-        addPulse(0,100,1,15,1,1,0,0,stripStart[10],stripEnd[11]);
-        
-      }
-      danceAround( blancoclaro );
-
-      break;
-    case 4:
-    
-     if( cueInit && cueMs<10) {
-        clearSeq();
-// setLeds(0,stripEnd[3],aquamarina);   
-         addFade(0,stripEnd[10]+50,1,30,0,240,240);   
-           cueInit = false;
-     
-      }
-      
-      if( cueMs>10 && cueMs<200 && !cueInit ) {
-        cueInit = true;
-        
-
-        addPulse(0,100,1,2,1,1,0,0,stripStart[0],stripEnd[1]);
-        addPulse(20,250,1,15,5,15,-1,0,stripStart[2],stripEnd[3]);  
-      }
-      if( cueMs>200 && cueInit ) {
-        cueInit = false;      
-        addPulse(0,255,1,15,7,15,-1,0,stripStart[4],stripEnd[6]);
-        addPulse(0,100,1,15,6,15,-1,0,stripStart[7],stripEnd[9]);
-        addPulse(0,100,1,15,5,15,-1,0,stripStart[10],stripEnd[11]);
-        
-      }
-
-      break;
-          case 5:
-          
-       if( cueInit && cueMs<10) {
-        clearSeq();
-        // setLeds(0,stripEnd[3],aquamarina);   
-           cueInit = false;
-     
-      }
-      
-      if(cueMs>100 && cueMs<200 && !cueInit ) {
-        cueInit = true;
-        clearFades();
-        addFade(0,100,1,10,0,0,0);
-        addFade(101,200,1,10,0,0,0);
-      }
-      if(cueMs>200 && cueInit ) {
         cueInit = false;
-        addFade(201,300,1,10,0,0,0);
-        addFade(300,380,1,10,0,0,0);       
+        addFade(0,stripEnd[12],1,30,1,1,1);   
+      }            
+      if( cueStep(500,1000,false) ) {
+        c1();
+        clearSeq();
+        setGeneralBrightness(1);
+        addFade(0,stripEnd[12],1,20,250,250,250);   
+        addPulse(stripStart[0],stripEnd[12],60,90,2,3);
+       }
+       if( cueStep(1500,2000, true) ) {
+        c0();
+        clearFades();
+        addFade(0,stripEnd[12],1,20,80,80,80);  
+        fadeGeneralBrightness(0.5,1,100);
+
+      } 
+      break;
+    // mugido breve tras "como"?  
+    case 4:    
+      if( cueStep(10,500,true) ) {
+        clearSeq();
+        cueInit = false;
+        addFade(0,stripEnd[12],1,30,1,1,1);   
+      }            
+      if( cueStep(500,1000,false) ) {
+        c1();
+        clearSeq();
+        setGeneralBrightness(1);
+        addFade(0,stripEnd[12],1,20,250,250,250);   
+        addPulse(stripStart[0],stripEnd[12],80,110,2,3);
+       }
+       if( cueStep(750,1000, true) ) {
+        c0();
+        clearFades();
+        addFade(0,stripEnd[12],1,20,80,80,80);  
+        fadeGeneralBrightness(0.5,1,100);
+
+      } 
+      break;
+    // discurso largo
+     case 5:    
+     
+      if( cueStep(10,500,true) ) {
+        lastSet = -1;
+        clearSeq();
+        cueInit = false;
+                setGeneralBrightness(1);
+
+        addFade(0,stripEnd[12],1,30,1,1,1);   
+      }            
+      if( cueStep(500,1000,false) ) {
+        c1();
+        clearSeq();
+        setGeneralBrightness(0.3);
+        addFade(0,stripEnd[12],1,4,250,250,250);   
         
-      }
-      
-      
-      if( cueMs>200 && !cueInit ) {
-        cueInit = true;
+        fadeGeneralBrightness(1,1,5000);
+
+        
+       }
+       
+      if( cueStep(5000,8000,true) ) {
+        c0();
         clearSeq();
-        addFade(0,stripEnd[11],1,20,80,80,80);   
+        addFade(0,stripEnd[12],1,1,25,60,90);   
+        
+        fadeGeneralBrightness(0.3,10,5000);
+
+        
+       }
+             
+             
+             
+             
+             
+
+if( cueStep( 10000, 47000, false) ) {
+  c0();
+bool looptrigger=false;
+
+for(int h = 0; h < 17; h++ ) {
 
 
-        addPulse(0,100,1,2,1,1,0,0,stripStart[0],stripEnd[1]);
-        addPulse(20,250,1,10,1,1,1,0,stripStart[2],stripEnd[3]);  
+      if( cueMs>10000 +(h*5000) && cueMs < 10000 +((h+1)*5000)+100 && lastSet != h ) {
+        lastSet = h;
+      Serial.println("turns: ");
+      Serial.print(h);
+      Serial.print(" --- b: ");
+      Serial.print(lastSet);
+
+      fadeGeneralBrightness(((h%2)*0.7)+0.3,2,100);
+
+       clearSeq();  
+       for( int i = 0 ; i < 12; i ++ ) {
+        addFade(stripStart[i],stripEnd[i+1],1,1,random(0,250),random(0,250) ,random(0,250));
+        if( h % 2 == 0 ) {
+          multiPulsi(50+(h*15),110+(h*13),1,1,1,15+(h*2),1+h);
+        }
+        else {
+          multiPulsi(50+(h*15),110+(h*13),1,1,15+(h*2),1,6-h);
+        }
       }
+
+      
+      
+      looptrigger != looptrigger;
+
+
+
+
+  }
+  
+
+}    
+
+}                 
+    
       
 
+       
+       if( cueStep(47000,47100, false) ) {
+         Serial.println("done");
+        c1();
+        clearSeq();
+        setGeneralBrightness(0.5);
+        addFade(0,stripEnd[1],1,4,255,255,255); 
+        addFade(stripStart[4],stripEnd[12],1,4,80,80,80); 
+        
+        addFade(stripStart[2],stripEnd[3],1,4,aquamarina); 
+
+        addPulse(0,30,2,3,1,1,0,0,stripStart[0],stripEnd[12]);
+/*clearFades();
+        addFade(0,stripEnd[12],1,20,80,80,80);  
+        fadeGeneralBrightness(0.5,1,100);
+*/
+      } 
       break;
+
+
+
+
+
+
+    // se estaban suicidando
     case 6:
-       if( cueInit && cueMs<10) {
+       if( cueStep( 0,10,true ) ) {
         clearSeq();
-        // setLeds(0,stripEnd[3],aquamarina);   
-           cueInit = false;
-           addFade(0,stripEnd[11],1,20,1,1,1);   
+        setGeneralBrightness(1);
+        addFade(0,stripEnd[1],1,1,60,80,70); 
+        addFade(stripStart[4],stripEnd[12],1,1,60,80,70); 
+        
+        addFade(stripStart[2],stripEnd[3],1,5,strip.Color(0,250,200)); 
 
+        addPulse(0,30,2,2,1,1,0,0,stripStart[0],stripEnd[12]);
+        c0();
       }
       
-      
-       if( cueMs>200 && !cueInit ) {
-        cueInit = true;
-        clearSeq();
-        addFade(0,stripEnd[11],1,20,80,80,80);   
-        addPulse(0,100,1,2,1,1,0,0,stripStart[0],stripEnd[1]);
-        addPulse(20,250,1,10,1,1,1,0,stripStart[2],stripEnd[3]);
 
-      }
-      
-      
       break;
+      
+      // podemos verlo de cerca?
       case 7:
-      if( cueInit && cueMs<10) {
+       if( cueStep( 0,10,true ) ) {
         clearSeq();
-        addFade(0,stripEnd[1],1,20,130,0,180);
-        addFadeOjo(1,20,130,0,180);
-        addFade(stripStart[4],stripEnd[11],1,20,130,0,180);
-        addPulse(50,250,1,12,1,1,15,1,stripStart[0],stripEnd[1]);
-        addPulse(50,250,1,20,1,1,10,1,stripStart[4],stripEnd[11]);
-           cueInit = false;
-     
-      }
-      break;
-    case 8:
-      if( cueInit && cueMs<10) {
-        clearSeq();
-        addFade(0,stripEnd[1],1,20,130,0,180);
-        addFadeOjo(1,20,180,0,130);
+        setGeneralBrightness(1);
+        setLeds(0,stripEnd[1],strip.Color(60,80,70)); 
+        setLeds(stripStart[4],stripEnd[12],strip.Color(60,80,70));
+        
+        addFade(stripStart[2],stripEnd[3],1,5,strip.Color(0,250,200)); 
 
-        addFade(stripStart[4],stripEnd[11],1,20,130,0,180);
-        addFade(stripStart[2],stripEnd[3],1,10,0,200,200);
-        addPulse(50,250,1,6,1,15,1,-1,stripStart[0],stripEnd[1]);
-        addPulse(50,250,1,8,1,15,3,-1,stripStart[4],stripEnd[11]);
-           cueInit = false;
-     
+        addPulse(100,130,1,3,1,1,0,0,stripStart[0],stripEnd[12]);
+        setDance(stripStart[6],stripStart[12],1,90,110,100);
+        c0();
       }
+      if( cueMs > 10 ) {
+        byte f1 = cueMs%55;
+        byte f2 = cueMs%25;
+        byte f3 = cueMs%155;
+
+        danceAround( strip.Color( 90,110,100 ));
+      }
+
+      break;
+      
+    //"tienes razon, ... trampa" - papa suelta sus hombros -  calamar se decepciona, baja su actividad y regresa a la debilidad inicial
+      
+    case 8:
+      
+      if( cueStep(10,30,true) ) {
+        clearSeq();
+        setLeds(negro);
+
+        addFade(stripStart[0],stripEnd[1],1,1,80,80,80);  
+        addFade(stripStart[4],stripEnd[12],1,1,80,80,80);  
+       
+        fadeGeneralBrightness(1/2,3,20);
+        addPulse(10,40,2,3,1,1,0,0,stripStart[0],stripEnd[12]);
+        c0();         
+      }
+      
+      if( cueStep(30,200,false) ) {
+
+        c1();
+        setLeds(20,30,aquamarina);
+        setLeds(40,60,aquamarina);        
+      }
+      
       break;
       
     case 9:
@@ -337,7 +368,7 @@ if( cueInit && cueMs<10) {
                 
         addFade(stripStart[4],stripEnd[11],1,5,0,20,180);
         addFadeOjo(1,10,0,200,180);
-        addPulse(50,150,1,8,3,15,-1,0,stripStart[2],stripEnd[3]);
+        //addPulse(50,150,1,8,3,15,-1,0,stripStart[2],stripEnd[3]);
 
       }
       break;
@@ -378,14 +409,14 @@ case 11:
         setLeds(40,60,rojosuave);
         setLeds(300,340,rojosuave);
         setLeds(stripStart[2],stripEnd[3],aquamarina);
-        addPulse(0,100,1,2,1,1,0,0,stripStart[0],stripEnd[2]);
-        addPulse(20,stripEnd[11],1,10,1,10,-1,0,stripStart[2],stripEnd[3]);  
+        //addPulse(0,100,1,2,1,1,0,0,stripStart[0],stripEnd[2]);
+        //addPulse(20,stripEnd[11],1,10,1,10,-1,0,stripStart[2],stripEnd[3]);  
         addFade( stripStart[2],stripEnd[3], 1, 10, 0, 155,155);
       }
       if( cueMs>200 && cueInit ) {
         cueInit = false;      
-        addPulse(0,255,1,7,1,1,0,0,stripStart[4],stripEnd[6]);
-        addPulse(0,100,1,10,1,1,0,0,stripStart[7],stripEnd[9]);        
+        //addPulse(0,255,1,7,1,1,0,0,stripStart[4],stripEnd[6]);
+        //addPulse(0,100,1,10,1,1,0,0,stripStart[7],stripEnd[9]);        
       }
       break;
 case 12:
@@ -416,7 +447,7 @@ case 15:
         cueInit=false;
         clearSeq();
         
-          //addPulse(30,180,1,3,1,1,0,0,0,400);
+          ////addPulse(30,180,1,3,1,1,0,0,0,400);
         setGradient(0,150,0,200,255,0,0,0,true);
         setGradient(1,150,0,200,155,0,40,25,true);
         setGradient(200,300,150,0,200,255,0,0,true);
@@ -463,7 +494,7 @@ case 18:
       
       if(cueMs> 200 && !cueInit) {
         setLeds( 90, 140, blancoclaro );
-        addPulse( 10,30,1,3,1,1,0,0,90,140 );
+        //addPulse( 10,30,1,3,1,1,0,0,90,140 );
       }
       
 break;
@@ -476,7 +507,7 @@ case 19:
         cueInit=false;
         clearSeq();
         
-          //addPulse(30,180,1,3,1,1,0,0,0,400);
+          ////addPulse(30,180,1,3,1,1,0,0,0,400);
         setGradient(0,150,80,80,255,255,0,50,true);
         setGradient(1,150,80,80,155,255,40,25,true);
         setGradient(200,300,80,80,200,255,0,30,true);
@@ -512,7 +543,7 @@ if( cueInit && cueMs<10) {
         clearSeq();
        clearSeq();
        addFade(stripStart[0],stripEnd[11],1,10,50,180,50);
-        addPulse(0,50,1,5,1,5,1,0,stripStart[0],stripEnd[11]);
+        //addPulse(0,50,1,5,1,5,1,0,stripStart[0],stripEnd[11]);
 
            cueInit = false;
      
@@ -530,7 +561,7 @@ if( cueInit && cueMs<10) {
         addFade(stripStart[0],stripEnd[1],1,10,150,230,50);
         addFade(stripStart[4],stripEnd[11],1,10,150,230,50);
         addFade(stripStart[2],stripEnd[3],1,10,255,150,0);
-        addPulse(0,50,1,5,1,15,1,0,stripStart[0],stripEnd[11]);
+        //addPulse(0,50,1,5,1,15,1,0,stripStart[0],stripEnd[11]);
 
            cueInit = false;
      
@@ -542,7 +573,7 @@ case 22:
         setLeds(amarillofeo);
         clearSeq();
         cueInit = false;
-        addPulse(30,80,1,2,1,1,0,0,0,350);
+        //addPulse(30,80,1,2,1,1,0,0,0,350);
         setOjo(blancoclaro);
         addFade(stripStart[4],stripEnd[7],1,2,0,60,130);
         addFade(stripStart[8],stripEnd[11],1,3,0,200,180);
@@ -553,7 +584,7 @@ case 22:
 case 23:
       if( cueInit && cueMs<10) {
         cueInit = false;
-        addPulse(30,80,1,2,1,6,1,0,0,350);
+        //addPulse(30,80,1,2,1,6,1,0,0,350);
         setDance(50,100,1);
       }
       if( cueMs > 20 ) {
@@ -586,7 +617,7 @@ case 26:
         cueInit = false;
         clearSeq();
 //        setLeds( azulrey );
-        addPulse(30,150,1,2,1,1,15,1,0,350);
+        //addPulse(30,150,1,2,1,1,15,1,0,350);
 
         addFade(0,100,1,10,150,0,80);
       }
@@ -617,7 +648,7 @@ if( cueInit && cueMs<10) {
         cueInit = false;
         clearSeq();
 //        setLeds( azulrey );
-        addPulse(30,150,1,2,1,1,15,1,0,300);
+        //addPulse(30,150,1,2,1,1,15,1,0,300);
 clearUpdates();
         setGradient(180,380,80,80,80,100,200,50,true);
         addSeqUpdate(180,380,1);
@@ -750,7 +781,7 @@ case 36:
         cueInit = false;
         clearSeq();
         addFade(0,stripEnd[11],1,10,80,80,80);
-        addPulse(0,200,2,2,1,1,0,0,0,stripEnd[12]);
+        //addPulse(0,200,2,2,1,1,0,0,0,stripEnd[12]);
       }
 break;
 
@@ -759,7 +790,7 @@ case 37:
       if( cueInit && cueMs<10) {
         cueInit = false;
         addFade(0,stripEnd[11],1,10,0,0,100);
-        addPulse(50,100,2,3,1,1,0,0,0,stripEnd[12]);
+        //addPulse(50,100,2,3,1,1,0,0,0,stripEnd[12]);
 
       }
 break;
@@ -772,7 +803,7 @@ case 38:
         setLeds(blancoclaro);
         addFade(0,stripEnd[6],1,10,0,0,100);
         addFade(stripStart[7],stripEnd[11],1,10,30,150,100);        
-        addPulse(0,stripEnd[11],2,10,1,1,0,0,0,stripEnd[11]);
+        //addPulse(0,stripEnd[11],2,10,1,1,0,0,0,stripEnd[11]);
 
       }
 break;
@@ -783,7 +814,7 @@ case 39:
         cueInit = false;
         clearSeq();
         addFade(0,stripEnd[11],1,10,80,80,100);
-        addPulse(00,250,2,10,1,1,0,0,0,stripEnd[11]);
+        //addPulse(00,250,2,10,1,1,0,0,0,stripEnd[11]);
 
       }
 break;

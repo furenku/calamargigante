@@ -41,3 +41,16 @@ void fadeOut() {
       }
       
 }
+
+
+void multiPulsi( byte pmin, byte pmax, byte pmod,  byte pspeed, byte paccmin, byte paccmax, int pacc ) {
+  clearPulses();
+  addPulse(stripStart[0],stripEnd[1],pmin,pmax,pmod,pspeed,paccmin,paccmax,pacc);
+  addPulse(stripStart[2],stripEnd[3],pmin,pmax,pmod,pspeed,paccmin,paccmax,pacc);
+  addPulse(stripStart[4],stripEnd[4],pmin,pmax,pmod,pspeed,paccmin,paccmax,pacc);
+  addPulse(stripStart[5],stripEnd[5],pmin,pmax,pmod,pspeed,paccmin,paccmax,pacc);
+  addPulse(stripStart[6],stripEnd[7],pmin,pmax,pmod,pspeed,paccmin,paccmax,pacc);
+  addPulse(stripStart[8],stripEnd[9],pmin,pmax,pmod,pspeed,paccmin,paccmax,pacc);
+  addPulse(stripStart[10],stripEnd[11],pmin,pmax,pmod,pspeed,paccmin,paccmax,pacc);
+  addPulse(stripStart[11],stripEnd[12],pmin,pmax,pmod,pspeed,paccmin,paccmax,pacc);
+}
