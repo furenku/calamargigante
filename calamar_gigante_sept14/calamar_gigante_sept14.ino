@@ -32,7 +32,7 @@
 
 //byte generalBrightness = 255;
 
-int cue = 42;
+int cue = 2;
 
 int digits[3];
 int incomingByte = 0;

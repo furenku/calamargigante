@@ -5,7 +5,7 @@ bool cueInit = false;
 long cueMs,cueMsStart;
 
       int LEDoffset;
-
+long cueCnt = 0;
 
 
 void fwd() {
@@ -27,6 +27,7 @@ void initCue() {
 
 void resetCue() {
   cueMs=0;
+  cueCnt = 0;
   cueMsStart=millis();
   cueInit = true;
 }
@@ -43,17 +44,18 @@ void clearSeq() {
 
 void seq() {
   cueMs = millis() - cueMsStart;
+  cueCnt++;
   switch(cue) {
     
     case 0:
       if( cueInit && cueMs<10) {
         clearSeq();
         for( int i = 0 ; i < 12; i ++ ) {
-          addFade(stripStart[i],stripEnd[i+1],1,5,125,random(0,125),random(0,105)*2 ,random(0,125)*2);
+          addFade(stripStart[i],stripEnd[i+1],1,5,random(0,50),random(0,105)*2 ,random(0,125)*2);
         }
         addFade( stripStart[2],stripEnd[3], 1, 10, 0, 255,155);
-        addPulse(1,160,1,3,3,3,0,0,0,stripEnd[1]);
-        addPulse(1,160,1,3,3,3,0,0,stripStart[3],stripEnd[12]);
+        //addPulse(1,160,1,3,3,3,0,0,0,stripEnd[1]);
+        //addPulse(1,160,1,3,3,3,0,0,stripStart[3],stripEnd[12]);
         addPulse(100,160,1,5,3,3,0,0,stripStart[2],stripEnd[3]);
         setGeneralBrightness(0);
         fadeGeneralBrightness(1,5,50);
@@ -62,12 +64,21 @@ void seq() {
       } else if ( cueMs>20 && !cueInit ) {
         
         cueInit = true;
+      } 
+      if(cueMs>20 && cueInit) {
+        
+        if(cueCnt%10==0) {
+          clearSeq();
+          for( int i = 0 ; i < 12; i ++ ) {
+            addFade(stripStart[i],stripEnd[i+1],1,5,50+random(0,25),75+random(0,25) ,random(0,25));
+          }
+        }
       }
            
       break;
       
     
-    case 1:
+    case 1111:
 if( cueInit && cueMs<10) {
         clearSeq();
         /*addFade(0,stripEnd[12],1,5,azulrey);
@@ -81,35 +92,46 @@ if( cueInit && cueMs<10) {
            
       break;
       
+      case 1:
+      if( cueInit && cueMs<10) {
+        clearSeq();
+        setLeds(negro);
+      }
+           
+      break;
+            
     case 2:
       
       if(cueInit &&  cueMs<10) {
 
         clearSeq();
 
-        addFade( stripStart[2],stripEnd[3], 1, 10, 0, 155,155);
+        //addFade( stripStart[2],stripEnd[3], 1, 10, , 155,155);
+        setLeds(negro);
 
-        addFade(stripStart[0],stripEnd[1],3,1,80,80,80);  
-        addFade(stripStart[4],stripEnd[11],3,1,80,80,80);  
-        cueInit = false;      
+        addFade(stripStart[0],stripEnd[1],1,1,80,80,80);  
+        addFade(stripStart[4],stripEnd[12],1,1,80,80,80);  
+       
+         setGeneralBrightness(0);
+        fadeGeneralBrightness(1,1,300);
+        cueInit = false;   
+        addPulse(0,100,1,1,1,1,0,0,stripStart[0],stripEnd[12]);
+        //addPulse(0,100,1,1,1,1,0,0,stripStart[4],stripEnd[5]);
+        /*addPulse(0,100,1,10,1,1,0,0,stripStart[4],stripEnd[7]);
+        addPulse(0,100,1,10,1,1,0,0,stripStart[8],stripEnd[12]);
+        */
       }
       
       if( cueMs>10 && cueMs<200 && !cueInit ) {
         cueInit = true;
-        
-        setLeds(stripStart[2],stripEnd[3],aquamarina);
-        addPulse(0,100,1,2,1,1,0,0,stripStart[0],stripEnd[2]);
-        addPulse(20,stripEnd[11],1,10,1,10,-1,0,stripStart[2],stripEnd[3]);  
-      }
-      if( cueMs>200 && cueInit ) {
-        cueInit = false;     
-       setLeds(20,30,rojosuave);
+        setLeds(20,30,rojosuave);
         setLeds(40,60,rojosuave);
-       // setLeds(300,340,rojosuave); 
-        addPulse(0,255,1,7,1,1,0,0,stripStart[4],stripEnd[6]);
-        addPulse(0,100,1,10,1,1,0,0,stripStart[7],stripEnd[9]);  
-        addPulse(0,100,1,5,1,1,0,0,stripStart[10],stripEnd[11]);        
-        
+        //setLeds(stripStart[2],stripEnd[3],aquamarina);
+        /*addPulse(0,100,1,2,1,1,0,0,stripStart[4],stripEnd[6]);
+        addPulse(0,100,1,2,1,1,0,0,stripStart[7],stripEnd[9]);
+        addPulse(0,100,1,2,1,1,0,0,stripStart[10],stripEnd[12]);
+        */
+        //addPulse(20,stripEnd[11],1,10,1,10,-1,0,stripStart[2],stripEnd[3]);  
       }
 
 /*

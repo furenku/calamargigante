@@ -39,6 +39,8 @@ void addFade( int startLED, int endLED, byte mod, byte amount, byte r, byte g, b
 }
 
 
+
+
 void addFade( int startLED, int endLED, byte mod, byte amount, uint32_t c, int steps = 30 ) {
   addFade( startLED, endLED, mod, amount, getR(c),getG(c), getB(c), steps ); 
 }
