@@ -31,8 +31,7 @@ void addFade( int startLED, int endLED, byte mod, byte amount, byte r, byte g, b
   nextFade++;
   nextFade %= NUMFADES;
   if(numFades>NUMFADES) numFades = NUMFADES;
-  Serial.println("cmp: " );
-  Serial.println( negro == strip.Color(0,0,0) );
+  
   for(int i = startLED; i < endLED; i++) {
     tmpLeds[i] = strip.Color(r,g,b);
   }

@@ -30,7 +30,7 @@
 #define BYTES_VAL_T unsigned int
 
 
-byte generalBrightness = 255;
+//byte generalBrightness = 255;
 
 int cue = 42;
 
@@ -171,6 +171,7 @@ void setup() {
   
   //count();
   setupStrips();
+  setupBodySeqStrips();
   test();
 }
 

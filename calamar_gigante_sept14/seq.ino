@@ -11,6 +11,7 @@ long cueMs,cueMsStart;
 void fwd() {
   fwdClock();
   fwdFade();
+  fwdGeneralBrightnessFade();
   fwdPulse();
 }
 
@@ -29,6 +30,7 @@ void resetCue() {
   cueMsStart=millis();
   cueInit = true;
 }
+
 uint32_t rojosuave = strip.Color(36,0,0);
 uint32_t blancoclaro = strip.Color(55,58,59);
 uint32_t amarillofeo = strip.Color(150,230,50);
@@ -46,15 +48,14 @@ void seq() {
     case 0:
       if( cueInit && cueMs<10) {
         clearSeq();
-        setLeds(0,0,0);   
+        for( int i = 0 ; i < 12; i ++ ) {
+          addFade(stripStart[i],stripEnd[i+1],1,5,125,random(0,125),random(0,105)*2 ,random(0,125)*2);
+        }
+        //addPulse(1,160,1,3,3,3,0,0,0,stripEnd[12]);
         //
         cueInit = false;
       } else if ( cueMs>20 && !cueInit ) {
-        addFade(200,250,1,5,125,0,200,30);
         
-        addFade(200,250,1,5,125,0,200,30);
-        addFade(300,350,3,5,0,125,200,30);
-        addFade(350,380,5,5,azulrey);
         cueInit = true;
       }
            
@@ -64,8 +65,13 @@ void seq() {
     case 1:
 if( cueInit && cueMs<10) {
         clearSeq();
-        setLeds(negro);   
-           cueInit = false;
+        /*addFade(0,stripEnd[12],1,5,azulrey);
+        addPulse(1,160,2,3,3,3,0,0,0,stripEnd[12]);
+        */
+        startBodySeq(15);
+        cueInit = false;
+      } else if ( cueMs>10 ) {
+        bodySeq();
       }
            
       break;
