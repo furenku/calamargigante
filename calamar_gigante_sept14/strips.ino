@@ -99,7 +99,7 @@ void setupStrips() {
   stripEnd[11] = 350;
 
   stripStart[12] = 351;
-  stripEnd[12] = 399;
+  stripEnd[12] = 380;
 
 
 

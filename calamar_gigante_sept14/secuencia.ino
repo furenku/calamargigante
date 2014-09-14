@@ -64,7 +64,7 @@ anco
 
 15. "cada vez que lo decia me sentia mas tonta " calamar se emputa un poco . calamar se llena de abajo arriba rapido color casi rojo morado, y luego retrocede pq no la abraza
 
-16. "estuvieron ahi ayer" - regresa a la calma - no roba foco
+16. "estuvieron ahi ayer" - inicia un crescendo que dura hasta que gary apaga la tele
 
 17. "no me mientan" - empieza a tener mayor actividad en las manos, crescendo durante 30 s
 

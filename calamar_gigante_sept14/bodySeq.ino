@@ -45,7 +45,16 @@ void startBodySeq( byte spd = 1 ) {
   bodySeqSpeed = spd;
 }
 
-void bodySeq() {
+
+byte fillR,fillG,fillB;
+void startBodyFill( byte spd, byte r, byte g, byte b ) {
+  startBodySeq( spd );
+  fillR = r;
+  fillG = g;
+  fillB = b;  
+}
+int seqIndex = 0;
+int bodySeq(byte type=0) {
 
   if( bodySequencing ) {
 
@@ -57,7 +66,13 @@ void bodySeq() {
           int index = bodyPartStart[ (bodyPart*numSubBodyParts) + i ] + bodySeqCnt + j;
           
           if(index> stripEnd[12]) bodySequencing = false;
-          else bodySeqLed( index ); 
+          else {
+            switch(type) {
+              case 0:
+                bodySeqLed( index );  
+              break;
+            }
+          }
         }
 
         nextBodyPart = false;     
@@ -74,12 +89,18 @@ void bodySeq() {
     }
 
     bodySeqCnt += bodySeqSpeed;
+    
+    return seqIndex;
 
   }
 
 }
 
+void bodyFill() {
+  bodySeq(0);
+}
+
 void bodySeqLed( int i ) {
-  setLed(i,azulrey);
+  setLed(i, strip.Color( fillR,fillG,fillB ) );
 
 }
