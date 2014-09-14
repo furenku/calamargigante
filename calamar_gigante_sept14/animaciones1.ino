@@ -106,12 +106,13 @@ void dotFade( int i, byte r, byte g, byte b ) {
 
 
 
-void drawStatic( byte probability ) {
-  setLeds(strip.Color(0,0,0) );
+void drawStatic( byte probability, byte r,byte g,byte b ) {
   for (uint16_t i = 0; i < NUMLEDS/4; i++ ) {
     if( random(0,255) < probability ) {
-      for (int j = 0; j < 4; j++ ) { setLed(i + (j*(NUMLEDS/4)), strip.Color(125,125,125) ); }
-    } 
+      for (int j = 0; j < 4; j++ ) { setLed(i + (j*(NUMLEDS/4)), strip.Color(r,g,b) ); }
+    } else {
+      for (int j = 0; j < 4; j++ ) { setLed(i + (j*(NUMLEDS/4)), tmpLeds[i + (j*(NUMLEDS/4))] ); }      
+    }
     
 
   }     

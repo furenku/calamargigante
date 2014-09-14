@@ -35,7 +35,7 @@ void resetCue() {
 uint32_t rojosuave = strip.Color(36,0,0);
 uint32_t blancoclaro = strip.Color(55,58,59);
 uint32_t amarillofeo = strip.Color(150,230,50);
-
+uint32_t naranja = strip.Color(255,170,0);
 void clearSeq() {
   clearPulses();
   clearFades();
@@ -528,11 +528,11 @@ case 15:
         addPulse( stripStart[0],stripEnd[12] , 100 ,150 , 1,3,1,33,1);
         setGradient(stripStart[0],stripEnd[1],50,80,50,60,100,60,true);
         addSeqUpdate(stripStart[0],stripEnd[1], 1,5);
-        setGradient(stripStart[4],stripEnd[5],60,100,60,100,130,40,true);
+        setGradient(stripStart[4],stripEnd[5],60,100,60,90,140,40,true);
         addSeqUpdate(stripStart[4],stripEnd[5], 1,5);
-        setGradient(stripStart[6],stripEnd[8],100,130,80,120,150,30,true);
+        setGradient(stripStart[6],stripEnd[8],100,130,80,120,170,50,true);
         addSeqUpdate(stripStart[6],stripEnd[8], 1,5);
-        setGradient(stripStart[9],stripEnd[12],100,130,80,150,150,10,true);
+        setGradient(stripStart[9],stripEnd[12],100,130,80,150,230,50,true);
         addSeqUpdate(stripStart[9],stripEnd[12], 1,5);
   
     }     
@@ -554,7 +554,7 @@ case 16:
         setGradient(stripStart[9],stripEnd[12],100,130,80,150,150,90,true);
         addSeqUpdate(stripStart[9],stripEnd[12], 3,1);
         addPulse(stripStart[0],stripEnd[12] , 30,80,1,2,1,1,0);
-        setDance(stripStart[6],stripEnd[12],1);
+        setDance(stripStart[6],stripEnd[12],1,120,150,70);
       }
       if( cueMs > 20 ) {
         seqUpdate();
@@ -563,7 +563,7 @@ case 16:
       
 break;
 
-
+//ella choca, inicia animacion en la caja -  reaccion expansiva blanca - luego ilumina donde ella esta - mientras pulsa "respira" muy lento (descendiendo)
 case 17:
   if( cueInit && cueMs<10) {
         cueInit = false;
@@ -577,47 +577,74 @@ case 17:
       
 break;
 
-
+//agarran 1er tentaculo - animacion a partir de ese punto 
 case 18: 
 
     if(cueInit ) {
         cueInit=false;
-        setDance( mano1Start, mano2End, 1 );
+        setDance( mano1Start, mano2End, 1,170,200,120);
+
     }
     if(cueMs> 10) {
-      byte color = min(cueMs / 10, 150);
-      danceAround( strip.Color( color, color, color  ) );
+      danceAround(strip.Color(170,200,120));
     }
 break;
 
-
+//"soy una niña diminuta" - el calamar emocionandose - trancesoso - se pone mas violeta de la cola, se va intensificando desde ahi todo el cuerpo y rellenandose
 case 19:
 
 
 
     if(cueMs<10 && cueInit ) {
-        cueInit=false;
-        clearSeq();
-        
+//        clearSeq();
+        //setGeneralBrightness(1);
           ////addPulse(30,180,1,3,1,1,0,0,0,400);
-        setGradient(0,150,80,80,255,255,0,50,true);
-        setGradient(1,150,80,80,155,255,40,25,true);
-        setGradient(200,300,80,80,200,255,0,30,true);
-        setGradient(300,400,80,111,33,233,155,0,true);
-        addSeqUpdate(0, 100, 1);
-        addSeqUpdate(100, 200, 1);
-        addSeqUpdate(200, 300, 1);
-        addSeqUpdate(300, 400, 1);
-    }    
-   if(cueMs> 2000 && !cueInit) {
-        setGradient(0,150,150,30,125,0,100,155,true);
-        setGradient(1,150,100,20,125,0,100,185,true);
-        setGradient(200,300,150,0,80,255,120,155,true);
-        setGradient(300,400,110,11,133,33,100,155,true);
-        addSeqUpdate(0, 100, 1);
-        addSeqUpdate(100, 200, 1);
-        addSeqUpdate(200, 300, 1);
-        addSeqUpdate(300, 400, 1);
+               
+        clearUpdates();
+
+        setGradient(stripStart[0],stripEnd[0],80,80,255,255,0,50,true);
+        setGradient(stripStart[1],stripEnd[1],80,80,255,255,0,50,true);
+
+        setGradient(stripStart[4],stripEnd[4],80,80,155,255,40,25,true);
+        setGradient(stripStart[5],stripEnd[5],80,80,155,255,40,25,true);
+
+        setGradient(stripStart[6],stripEnd[7],150,0,80,255,120,155,true);
+        setGradient(stripStart[8],stripEnd[9],150,0,80,255,120,155,true);
+
+        setGradient(stripStart[10],stripEnd[10],80,80,200,255,0,30,true);
+        setGradient(stripStart[11],stripEnd[12],80,111,33,233,155,0,true);
+
+        addSeqUpdate(stripStart[0],stripEnd[0], 1);
+        addSeqUpdate(stripStart[1],stripEnd[1], 1);
+        addSeqUpdate(stripStart[4],stripEnd[4], 1);
+        addSeqUpdate(stripStart[5],stripEnd[5], 1);
+        addSeqUpdate(stripStart[6],stripEnd[8], 1);
+        addSeqUpdate(stripStart[9],stripEnd[12], 1);
+        
+        cueInit=false;
+
+      }    
+   if(cueMs> 4000 && !cueInit) {
+        clearUpdates();
+        setGradient(stripStart[0],stripEnd[0],150,30,125,0,100,155,true);
+        setGradient(stripStart[1],stripEnd[1],150,30,125,0,100,155,true);
+
+        setGradient(stripStart[4],stripEnd[4],100,20,125,0,100,185,true);
+        setGradient(stripStart[5],stripEnd[5],100,20,125,0,100,185,true);
+
+        setGradient(stripStart[6],stripEnd[7],150,0,80,255,120,155,true);
+        setGradient(stripStart[8],stripEnd[9],150,0,80,255,120,155,true);
+
+        setGradient(stripStart[10],stripEnd[10],110,11,133,33,100,155,true);
+        setGradient(stripStart[11],stripEnd[12],110,11,133,33,100,155,true);
+
+        addSeqUpdate(stripStart[0],stripEnd[0], 1);
+        addSeqUpdate(stripStart[1],stripEnd[1], 1);
+        addSeqUpdate(stripStart[4],stripEnd[4], 1);
+        addSeqUpdate(stripStart[5],stripEnd[5], 1);
+        addSeqUpdate(stripStart[6],stripEnd[8], 1);
+        addSeqUpdate(stripStart[9],stripEnd[12], 1);    
+        
         cueInit = true;
       } 
      if(cueMs>2010 && cueInit ){
@@ -627,15 +654,14 @@ case 19:
       
 break;
 
-
+//se desmaya - se retira el color intenso, y luego se pone de un color chafa liso rellenandose en sentido contrario
 case 20:
 
 
 if( cueInit && cueMs<10) {
-        clearSeq();
        clearSeq();
-       addFade(stripStart[0],stripEnd[11],1,10,50,180,50);
-        //addPulse(0,50,1,5,1,5,1,0,stripStart[0],stripEnd[11]);
+       addFade(stripStart[0],stripEnd[12],1,10,150,230,50);
+       addPulse(stripStart[0],stripEnd[12],1,5,5,1,-1,0,stripStart[0],stripEnd[12]);
 
            cueInit = false;
      
@@ -644,62 +670,114 @@ if( cueInit && cueMs<10) {
       
 break;
 
+// el calamar se emputa y muje - se rellena de rojo y pulsa muy rapido y pulsa mas intenso en las extremidades. ojo naranja
+//accidente increible:!!!
 case 21:
 
-
-if( cueInit && cueMs<10) {
+        if( cueStep(0,10,true) ) {
+          clearSeq();
+          setGeneralBrightness(1);  
+          c0();
+          addFade(stripStart[0],stripEnd[12],1,30,1,1,1);   
+        }            
+        if( cueStep(1000,1500,false) ) {
+          c1();
+          
+          clearSeq();
+          addFade(stripStart[0],stripEnd[1],1,10,150,0,0);
+          addFade(stripStart[4],stripEnd[12],1,10,150,0,0);
+          addFade(stripStart[2],stripEnd[3],1,10,150,100,0);
+          addPulse(stripStart[0],stripEnd[12],150,200,1,7,7,1,-1);
+          //fadeGeneralBrightness(0.5,10,1000);
+                 
+        }
+       if( cueStep(2000,5000,true) ) {
+        // setLeds(rojo);
         clearSeq();
+        addFade(0,stripEnd[12],1,2,amarillofeo);             
 
-        addFade(stripStart[0],stripEnd[1],1,10,150,230,50);
-        addFade(stripStart[4],stripEnd[11],1,10,150,230,50);
-        addFade(stripStart[2],stripEnd[3],1,10,255,150,0);
-        //addPulse(0,50,1,5,1,15,1,0,stripStart[0],stripEnd[11]);
+         setDance( 0,stripEnd[12], 1, 250,50,0 ); 
+         c0();
+       }
+       if( cueStep(2000,5000,false) ) {
+         danceAround( strip.Color( 250,50,0 ) );
+       }
+       
+      if( cueStep(5001,8000,true) ) {
+        c0();
+        clearSeq();
+        addFade(0,stripEnd[12],1,10,150,230,20);             
 
-           cueInit = false;
-     
-      }
+        addPulse(stripStart[0],stripEnd[12],70,120,1,1,1,1,1);
+        fadeGeneralBrightness(0.3,10,500);
+       }
+             
 break;
-
+// a la iglesia - niños salen
 case 22:
       if( cueInit && cueMs<10) {
-        setLeds(amarillofeo);
-        clearSeq();
         cueInit = false;
-        //addPulse(30,80,1,2,1,1,0,0,0,350);
+        clearSeq();
+        setGeneralBrightness(0.15);
+
+        addFade(stripStart[0],stripEnd[1],1,3,azulindigo);
+        addFade(stripStart[4],stripEnd[12],1,3,azulindigo);
+       /* addFade(stripStart[6],stripEnd[7],1,2,0,60,130);
+        addFade(stripStart[9],stripEnd[10],1,3,0,200,180);
+*/
+        addPulse(stripStart[0],stripEnd[12],30,80,3,5,5,1,-1);
         setOjo(blancoclaro);
-        addFade(stripStart[4],stripEnd[7],1,2,0,60,130);
-        addFade(stripStart[8],stripEnd[11],1,3,0,200,180);
       }
       break;
+
+//"vas a repetir el año" - 5 segudnos - cambian a rosado pixeles al azar, uno por uno y luego sus contiguos, aprecen mas encendiddos al azar hasta que se completa .
+
+//70 segundos -> transiciona hacia estatica TV utilizando tetris y a ver que pasa
 
 
 case 23:
       if( cueInit && cueMs<10) {
         cueInit = false;
-        //addPulse(30,80,1,2,1,6,1,0,0,350);
-        setDance(50,100,1);
+        clearSeq();
+        setGeneralBrightness(0.15);
+        addPulse(130,160,1,2);
+       
+        addFade(stripStart[0],stripEnd[12],1,3,rosado);
+        
+        for(int i = 0; i < stripEnd[12]; i++ ) {
+          tmpLeds[i] = rosado;
+        }
       }
-      if( cueMs > 20 ) {
-        danceAround(blancoclaro);
+      if( cueStep(1000,70000,false )) {
+        drawStatic( min( (cueMs / float(70000) )* 255 , 255 ), 180,180,180 );
       }
 
 
 break;
 
+// "la TV para presidente!" - al calamar le da verguenza ser TV y se pasa a azul indigo 
 
 case 24:
 
 
       if( cueInit && cueMs<10) {
         cueInit = false;
-        setDance(300,350,1);
+        clearSeq();
+        setGeneralBrightness(0.5);
+
+        addFade(stripStart[0],stripEnd[1],1,3,azuloscuro);
+        addFade(stripStart[4],stripEnd[12],1,3,azuloscuro);
+       /* addFade(stripStart[6],stripEnd[7],1,2,0,60,130);
+        addFade(stripStart[9],stripEnd[10],1,3,0,200,180);
+*/
+        addPulse(stripStart[0],stripEnd[12],30,80,3,5,5,1,-1);
+        setOjo(aquamarina);
       }
-      if( cueMs > 20 ) {
-        danceAround(blancoclaro);
-      }
+      break;
 
 break;
 
+// el calamar ilustra la enfermedad del niño, inflamacion que crece, pudredumbre verde en el pulmon
 
 
 case 26:
@@ -734,6 +812,7 @@ case 26:
 
 break;
 
+// el niño toca la caja, y de ahi empieza a irradiar la navidad. la navidad va intensificandose hasta ser incontenible durante 20 segundos
 
 case 27:
 if( cueInit && cueMs<10) {
@@ -750,6 +829,9 @@ clearUpdates();
       }
 break;
 
+
+//35. susan empieza a hacer el sonido de las olas con la TV (5 segundos de periodo) (pulso de intensidad y "oleaje en la animacion
+
 case 28:
       if( cueInit && cueMs<10) {
         cueInit = false;
@@ -759,7 +841,7 @@ case 28:
 break;
 
 
-
+// "tengo sueño" - empieza a transicionar  hacia azul oscuro en 10 s, se mantiene el oleaje
 
 
 
@@ -773,6 +855,7 @@ break;
 
 
 
+// el calamar hace un gesto breve , parecido a escupir. se acumula mdio lento (5 segs) luz en el centro, y de ahi luego se proyecta rapido hacia afuera ( 0.5 seg )
 
 
 case 30:
@@ -785,6 +868,7 @@ break;
 
 
 
+//38. jed cierra los ojos - calamar abre los ojos - bajar intensidad cuerpo y prender los ojos en verde 
 
 
 case 31:
@@ -794,9 +878,10 @@ case 31:
         setLeds(rosado);
       }
       
-      drawStatic( min( cueMs / float(50) , 255 ) );
+//      drawStatic( min( cueMs / float(50) , 255 ) );
 break;
 
+// todo se apaga
 
 
 case 32:
@@ -952,6 +1037,55 @@ if( cueInit && cueMs<10) {
 case 111:
       rainbow(1);
       break;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//accidente increible:!!!
+case 221:
+
+        if( cueStep(0,10,true) ) {
+          clearSeq();
+          c0();
+          addFade(stripStart[0],stripEnd[12],1,30,1,1,1);   
+        }            
+        if( cueStep(600,700,false) ) {
+          c1();
+          setGeneralBrightness(1);  
+          clearSeq();
+          addFade(stripStart[0],stripEnd[12],1,5,250,0,0);
+          addPulse(stripStart[0],stripEnd[12],200,250,1,7,7,1,-1);
+          fadeGeneralBrightness(0.5,10,1000);
+          setDance( 0,stripEnd[12], 1, 250,50,0 );        
+        }
+         
+       if( cueStep(600,5000,true) ) {
+         danceAround( strip.Color( 250,50,0 ) );
+       }
+       
+      if( cueStep(5000,8000,true) ) {
+        c0();
+        clearSeq();
+        addPulse(stripStart[0],stripEnd[12],70,120,1,1,1,1,1);
+        addFade(0,stripEnd[12],1,5,1,1,1);             
+        fadeGeneralBrightness(0.3,10,5000);
+       }
+             
+break;
+
+
+
       
   }
  
