@@ -22,7 +22,7 @@ void addPulse(byte pmin, byte pmax, byte pmod,  byte pspeed, byte paccmin, byte 
   pulseRangeStart[numPulses] = rangeMin;
   pulseRangeEnd[numPulses] = rangeMax;  
   pulseSet[numPulses] = true;
-  bpulseVal[numPulses] = pmin;
+  bpulseVal[numPulses] = abs(pmax-pmin)/2;
 
   numPulses++; numPulses %= NUMPULSES;
 }
