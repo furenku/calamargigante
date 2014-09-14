@@ -8,7 +8,7 @@ float generalBrightnessAmount = 0, generalBrightnessTarget = 1;
 bool generalBrightnessFading = false;
 
 void setGeneralBrightness( float b ) {
-  brightness = b;
+  generalBrightness = b;
 }
 
 
@@ -16,6 +16,7 @@ void fadeGeneralBrightness( float generalBrightnessTarget, int mod, int numSteps
   generalBrightnessMod = mod;
   generalBrightnessSteps = numSteps;    
   generalBrightnessAmount = ( generalBrightnessTarget - generalBrightness ) / numSteps;
+  Serial.println(generalBrightnessAmount);
   generalBrightnessFading = true;
 }
 
@@ -28,7 +29,7 @@ void clearGeneralBrightnessFade() {
 
 void fwdGeneralBrightnessFade() {
   if( generalBrightnessSteps > 0 ) {
-    brightness += generalBrightnessAmount;
+    generalBrightness += generalBrightnessAmount;
     generalBrightnessSteps--;
   } else {
     clearGeneralBrightnessFade();

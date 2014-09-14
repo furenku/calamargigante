@@ -51,7 +51,12 @@ void seq() {
         for( int i = 0 ; i < 12; i ++ ) {
           addFade(stripStart[i],stripEnd[i+1],1,5,125,random(0,125),random(0,105)*2 ,random(0,125)*2);
         }
-        //addPulse(1,160,1,3,3,3,0,0,0,stripEnd[12]);
+        addFade( stripStart[2],stripEnd[3], 1, 10, 0, 255,155);
+        addPulse(1,160,1,3,3,3,0,0,0,stripEnd[1]);
+        addPulse(1,160,1,3,3,3,0,0,stripStart[3],stripEnd[12]);
+        addPulse(100,160,1,5,3,3,0,0,stripStart[2],stripEnd[3]);
+        setGeneralBrightness(0);
+        fadeGeneralBrightness(1,5,50);
         //
         cueInit = false;
       } else if ( cueMs>20 && !cueInit ) {
@@ -394,10 +399,10 @@ case 15:
         setGradient(1,150,0,200,155,0,40,25,true);
         setGradient(200,300,150,0,200,255,0,0,true);
         setGradient(300,400,0,111,33,33,255,0,true);
-        addSeqUpdate(0, 100, 1);
-        addSeqUpdate(100, 200, 1);
-        addSeqUpdate(200, 300, 1);
-        addSeqUpdate(300, 400, 1);
+        addSeqUpdate(0, 100, 1,5);
+        addSeqUpdate(100, 200, 1,5);
+        addSeqUpdate(200, 300, 1,5);
+        addSeqUpdate(300, 380, 1,5);
     }     
      if(cueMs>10 && cueMs<6000){
         seqUpdate();

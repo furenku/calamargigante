@@ -12,6 +12,8 @@ void randomUpdate(int startLED, int endLED) {
 int updateStart[NUMUPDATES];
 int updateEnd[NUMUPDATES];
 byte updateMod[NUMUPDATES];
+byte updateSpeed[NUMUPDATES];
+
 int updateSteps[NUMUPDATES];
 int updateStep[NUMUPDATES];
 
@@ -22,11 +24,13 @@ void clearUpdates() {
 
 
 
-void addSeqUpdate(int startLED, int endLED, byte mod) {
+void addSeqUpdate(int startLED, int endLED, byte mod, byte spd=1 ) {
   updateStart[numUpdates]=startLED;
   updateEnd[numUpdates]=endLED;
   updateMod[numUpdates]=mod;
+  updateSpeed[numUpdates]=spd;
   updateSteps[numUpdates]=0;
+
 
   numUpdates++;
   numUpdates = min( numUpdates, NUMUPDATES );
@@ -36,10 +40,13 @@ void seqUpdate() {
   for(int i = 0; i<numUpdates; i++) {
     if( trigger(updateMod[i]) ) {      
       if( updateSteps[i] <= updateEnd[i]-updateStart[i] ){
-        int index =  updateStart[i] + updateSteps[i] ;
-        leds[ index ] = tmpLeds[ index ];
-        updated[ index ] = true;
-        updateSteps[i]++;
+        for( int j = 0; j < updateSpeed[i]; j++ ) { 
+          int index =  updateStart[i] + updateSteps[i] + j;
+          leds[ index ] = tmpLeds[ index ];
+          updated[ index ] = true;
+        }
+        
+        updateSteps[i]+= updateSpeed[i];
       }
     }
   }

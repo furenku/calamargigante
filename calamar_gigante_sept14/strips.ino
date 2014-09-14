@@ -29,9 +29,9 @@ void showLeds() {
   
     strip.setPixelColor(i, //leds[i] );
     strip.Color( 
-      getR(leds[i])*p,
-      getG(leds[i])*p,
-      getB(leds[i])*p
+      getR(leds[i])*p*generalBrightness,
+      getG(leds[i])*p*generalBrightness,
+      getB(leds[i])*p*generalBrightness
       ));
   }
   strip.show();
