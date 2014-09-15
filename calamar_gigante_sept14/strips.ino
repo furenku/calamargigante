@@ -13,25 +13,25 @@ void setupStrip() {
 
 void showLeds() {
   float p = 1;
-  
+  float gb = generalBrightness*0.8;;
+
   for (int i = 0; i < NUMLEDS; i++ ) {
     for (int j = 0; j < NUMPULSES; j++ ) {  
       if(pulseSet[j] ) {
         if(  i >= pulseRangeStart[j] && i <= pulseRangeEnd[j] ) {
           p = bpulseVal[j] / (float)255;
-          break;
+          //break;
         }
         else {
           p = 1;
         }
       }
     }  
-  
     strip.setPixelColor(i, //leds[i] );
     strip.Color( 
-      getR(leds[i])*p*generalBrightness,
-      getG(leds[i])*p*generalBrightness,
-      getB(leds[i])*p*generalBrightness
+      getR(leds[i])*p*gb,
+      getG(leds[i])*p*gb,
+      getB(leds[i])*p*gb
       ));
   }
   strip.show();

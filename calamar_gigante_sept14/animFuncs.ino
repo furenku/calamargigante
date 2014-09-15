@@ -71,7 +71,7 @@ void doubleHelix() {
 }
 
 
-void quadHelix() {
+void quadHelix(byte r,byte g,byte b) {
 	if(clock%1 == 0 ) {
 		pos++;
 		pos%=255;
@@ -80,9 +80,9 @@ void quadHelix() {
 
 	    black();
 	    dotFade(currLed, 255,255,255);
-	    dotFade( ( currLed+(NUMLEDS / 2) ) % NUMLEDS, 200,200,200);
-	    dotFade( ( currLed+(3*(NUMLEDS / 4)) ) % NUMLEDS, 200,200,155);
-	    dotFade( max( currLed - (NUMLEDS / 3), 0 ) , 125,125,200);
+	    dotFade( ( currLed+(NUMLEDS / 2) ) % NUMLEDS, r/3,g/3,b/3);
+	    dotFade( ( currLed+(3*(NUMLEDS / 4)) ) % NUMLEDS, r/2,g/2,b/2);
+	    dotFade( max( currLed - (NUMLEDS / 3), 0 ) , r/2,g/2,b/2);
 
 	}
 }

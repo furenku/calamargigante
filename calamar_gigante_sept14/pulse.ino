@@ -9,7 +9,7 @@ void clearPulses() {
 }
 
 
-void addPulse(byte pmin, byte pmax, byte pmod,  byte pspeed, byte paccmin, byte paccmax, int pacc, byte ptype, int rangeMin, int rangeMax) {
+void addPulse(int rangeMin, int rangeMax, byte pmin, byte pmax, byte pmod,  byte pspeed, byte paccmin, byte paccmax, int pacc, byte ptype ) {
 
   pulseSpeed[numPulses] = pspeed;
   pulseMin[numPulses] = pmin;
@@ -22,7 +22,7 @@ void addPulse(byte pmin, byte pmax, byte pmod,  byte pspeed, byte paccmin, byte 
   pulseRangeStart[numPulses] = rangeMin;
   pulseRangeEnd[numPulses] = rangeMax;  
   pulseSet[numPulses] = true;
-  bpulseVal[numPulses] = abs(pmax-pmin)/2;
+  bpulseVal[numPulses] = pmin+abs(pmax-pmin)/2;
 
   numPulses++; numPulses %= NUMPULSES;
 }
@@ -31,7 +31,7 @@ void addPulse(byte pmin, byte pmax, byte pmod,  byte pspeed, byte paccmin, byte 
 
 void addPulse(int rangeMin, int rangeMax, byte pmin, byte pmax, byte pmod,  byte pspeed, byte paccmin, byte paccmax, int pacc ) {
 
-  addPulse(pmin,pmax,pmod,pspeed,paccmin,paccmax,pacc,0,rangeMin,rangeMax);
+  addPulse(rangeMin,rangeMax,pmin,pmax,pmod,pspeed,paccmin,paccmax,pacc,0);
   
 }
 
@@ -39,7 +39,7 @@ void addPulse(int rangeMin, int rangeMax, byte pmin, byte pmax, byte pmod,  byte
 
 void addPulse(int rangeMin=0, int rangeMax=300, byte pmin=100, byte pmax=150, byte pmod=1,  byte pspeed=2 ) {
 
-  addPulse(pmin,pmax,pmod,pspeed,1,1,0,0,rangeMin,rangeMax);
+  addPulse(rangeMin,rangeMax,pmin,pmax,pmod,pspeed,1,1,0);
 }
 
 
@@ -66,7 +66,6 @@ void fwdPulse(){
       
   
         bpulseVal[i] += pulseSpeed[i];
-                        
 
       if( pulseAcc[i] != 0 ) {
   
